@@ -10,7 +10,7 @@ export function RegisterLanguage(monaco: typeof monacoEditor) {
                 [/;.*/, "comment"],
                 [/\b(LDR|STR|ADD|SUB|MOV|CMP|B|BEQ|BNE|BGT|BLT|AND|ORR|EOR|MVN|LSL|LSR|HALT|NOP)\b/,"keyword"],
                 [/\bR[0-9]+\b/, "variable"],
-                [/#\d+/, "number.immediate"],
+                [/#-?\d+/, "number.immediate"],
                 [/\b\d+\b/, "number.address"],
                 [/^\s*[a-zA-Z_]\w*:/, "type.identifier"],
             ]
