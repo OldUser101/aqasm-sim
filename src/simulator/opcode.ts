@@ -1,0 +1,20 @@
+export const OPCODES: Record<string, number> = {
+    LDR : 0x01,
+    STR : 0x02,
+    ADD : 0x03,
+    SUB : 0x04,
+    MOV : 0x05,
+    CMP : 0x06,
+    B   : 0x07,
+    BEQ : 0x08,
+    BNE : 0x09,
+    BGT : 0x0A,
+    BLT : 0x0B,
+    AND : 0x0C,
+    ORR : 0x0D,
+    EOR : 0x0E,
+    MVN : 0x0F,
+    LSL : 0x10,
+    LSR : 0x11,
+    HALT: 0xFF
+};
