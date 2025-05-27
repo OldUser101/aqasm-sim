@@ -21,6 +21,7 @@
 }
 
 .github-logo {
+    color: var(--text-muted);
     height: 32px;
     width: 32px;
     margin: 0 auto;
