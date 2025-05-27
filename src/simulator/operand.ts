@@ -1,17 +1,59 @@
-import { Error } from "./error";
+import { LabelReference } from "./label";
 
-export class Operand {
-    static parse(o: string, line: number): number | Error {
-        if (o.startsWith("#") || o.startsWith("R")) {
-            let n: number = parseInt(o.substring(1), 10);
+export abstract class Operand {
+    abstract matches(token: string): boolean;
+    abstract parse(token: string, line: number): number | LabelReference | null;
+}
 
-            if (isNaN(n)) {
-                return new Error(line, "Invalid base 10 integer.");
-            }
+export class RegisterOperand extends Operand {
+    matches(token: string): boolean {
+        return /^R\d+$/.test(token);
+    }
 
-            return n % 256;
-        }
+    parse(token: string, line: number): number | null {
+        const n: number = parseInt(token.substring(1), 10);
 
-        return new Error(line, "Invalid operand.");
+        if (isNaN(n)) return null;
+        if (n < 0 || n > 12) return null;
+
+        return n;
+    }
+}
+
+export class ImmediateOperand extends Operand {
+    matches(token: string): boolean {
+        return /^#-?\d+$/.test(token);
+    }
+
+    parse(token: string, line: number): number | null {
+        const n: number = parseInt(token.substring(1), 10);
+
+        if (isNaN(n)) return null;
+
+        return n % 256;
+    }
+}
+
+export class ReferenceOperand extends Operand {
+    matches(token: string): boolean {
+        return /^-?\d+$/.test(token);
+    }
+
+    parse(token: string, line: number): number | null {
+        const n: number = parseInt(token, 10);
+
+        if (isNaN(n)) return null;
+
+        return n % 256;
+    }
+}
+
+export class LabelOperand extends Operand {
+    matches(token: string): boolean {
+        return /^[A-Za-z_][A-Za-z0-9_]*$/.test(token);
+    }
+
+    parse(token: string, line: number): LabelReference {
+        return new LabelReference(token, line);
     }
 }

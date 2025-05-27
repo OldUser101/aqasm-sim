@@ -3,8 +3,10 @@
 import { useRef } from 'react';
 import Editor from '@monaco-editor/react';
 import type * as monacoEditor from 'monaco-editor';
-import { Parser } from './simulator/parser';
+import { ParseContext, Parser } from './simulator/parser';
 import { Assembler } from './simulator/asembler';
+import { DEFAULT_SIGNATURES } from './simulator/signature';
+import { RegisterLanguage } from './editor/register';
 
 export function CodeEditor() {
     const editorRef = useRef<monacoEditor.editor.IStandaloneCodeEditor | null>(null);
@@ -14,13 +16,20 @@ export function CodeEditor() {
         monaco: typeof monacoEditor
     ) {
         editorRef.current = editor;
+        RegisterLanguage(monaco);
+        monaco.editor.setTheme("aqa-dark");
     }
 
     const runParser = () => {
         if (editorRef.current) {
             const code = editorRef.current.getValue();
-            const parsed = Parser.parse(code);
-            const assembled = Assembler.assemble(parsed);
+            const context = new ParseContext();
+            const parsed = Parser.parse(code, context);
+            const assembler = new Assembler();
+            assembler.loadSigTable(DEFAULT_SIGNATURES);
+            const assembled = assembler.assemble(parsed, context);
+            console.log(parsed);
+            console.log(context);
             console.log(assembled);
         }
     };
@@ -30,9 +39,8 @@ export function CodeEditor() {
             <Editor 
                 height="60vh"
                 width="100vw"
-                defaultLanguage="typescript"
+                defaultLanguage="aqa-asm"
                 defaultValue={`; Start typing your code here\n`}
-                theme="vs-dark"
                 onMount={handleEditorMount}
                 options={{ automaticLayout: true }}
             />

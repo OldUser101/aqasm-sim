@@ -1,9 +1,10 @@
 import type { CPU } from "./cpu";
+import type { LabelReference } from "./label";
 import type { Memory } from "./memory";
 
 export class Instruction {
     opcode: number = 0;
-    operands?: number[] = [];
+    operands: (number | LabelReference)[] = [];
 
     execute(cpu: CPU, memory: Memory): void {
 
@@ -12,6 +13,6 @@ export class Instruction {
 
 export class ParsedInstruction {
     opcode: string = "";
-    operands?: string[];
+    operands: string[] = [];
     line: number = 0;
 }
