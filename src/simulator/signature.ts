@@ -31,7 +31,8 @@ export class Signature {
         for (let j = 0; j < instruction.operands.length; j++) {
             const n = this.operands[j].parse(instruction.operands[j], instruction.line);
 
-            if (!n) return null;
+            // Don't use !n as an operand could evaluate to 0
+            if (n === null) return null;
 
             i.operands.push(n);
         }

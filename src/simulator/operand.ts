@@ -13,8 +13,7 @@ export class RegisterOperand extends Operand {
     parse(token: string, line: number): number | null {
         const n: number = parseInt(token.substring(1), 10);
 
-        if (isNaN(n)) return null;
-        if (n < 0 || n > 12) return null;
+        if (isNaN(n) || n < 0 || n > 12) return null;
 
         return n;
     }
@@ -28,9 +27,9 @@ export class ImmediateOperand extends Operand {
     parse(token: string, line: number): number | null {
         const n: number = parseInt(token.substring(1), 10);
 
-        if (isNaN(n)) return null;
+        if (isNaN(n) || n < -128 || n > 127) return null;
 
-        return n % 256;
+        return n;
     }
 }
 
@@ -42,7 +41,7 @@ export class ReferenceOperand extends Operand {
     parse(token: string, line: number): number | null {
         const n: number = parseInt(token, 10);
 
-        if (isNaN(n)) return null;
+        if (isNaN(n) || n < 0) return null;
 
         return n % 256;
     }
