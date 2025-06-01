@@ -48,10 +48,20 @@ export class SignatureTable {
         this.signatures.push(signature);
     }
 
-    lookup(instruction: ParsedInstruction): Signature | null {
-        for (let sig of this.signatures) {
-            if (sig.matches(instruction)) {
-                return sig;
+    lookup(opcode: number): Signature | null;
+    lookup(instruction: ParsedInstruction): Signature | null;
+    lookup(arg: number | ParsedInstruction): Signature | null {
+        if (typeof arg === "number") {
+            for (let sig of this.signatures) {
+                if (sig.opcode.code === arg) {
+                    return sig;
+                }
+            }            
+        } else {
+            for (let sig of this.signatures) {
+                if (sig.matches(arg)) {
+                    return sig;
+                }
             }
         }
 

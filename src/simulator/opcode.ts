@@ -280,7 +280,7 @@ function OP_HALT(sim: Simulator): null {
 }
 
 export const DEFAULT_OPCODES: Record<string, Opcode> = {
-    NOP: new Opcode("NOP", 0x00, OP_NOP),
+    NOP: new Opcode("NOP", 0xFF, OP_NOP),
     LDR: new Opcode("LDR", 0x01, OP_LDR),
     STR: new Opcode("STR", 0x02, OP_STR),
     ADD_R: new Opcode("ADD", 0x03, OP_ADD_R),
@@ -308,5 +308,5 @@ export const DEFAULT_OPCODES: Record<string, Opcode> = {
     LSL_I: new Opcode("LSL", 0x8C, OP_LSL_I),
     LSR_R: new Opcode("LSR", 0x0D, OP_LSR_R),
     LSR_I: new Opcode("LSR", 0x8D, OP_LSR_I),
-    HALT: new Opcode("HALT", 0xFF, OP_HALT)
+    HALT: new Opcode("HALT", 0x00, OP_HALT)
 };

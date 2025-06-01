@@ -16,13 +16,13 @@
 
 .grid {
     display: grid;
-    grid-template-columns: 10vw 55vw 35vw;
+    grid-template-columns: 10vw 1fr auto;
     width: 100vw;
 }
 
 .files-col {
     display: grid;
-    grid-template-rows: 6fr 1fr;
+    grid-template-rows: 1fr auto;
     box-shadow: 2px 0 4px rgba(0, 0, 0, 0.15);
     z-index: 5;
 }
