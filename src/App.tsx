@@ -2,7 +2,7 @@ import { CodeEditor } from "./editor";
 import { useState, useCallback } from "react";
 import { ThemeToggle } from "./theme-toggle";
 import { InfoCard } from "./info-card";
-import { editorInstance } from "./editor/monaco-instance";
+import { editorInstance, monacoInstance } from "./editor/monaco-instance";
 
 import './App.css';
 import { Simulator } from "./simulator/simulator";
@@ -18,12 +18,42 @@ export default function App() {
         if (editorInstance) {
             const code = editorInstance.getValue();
             const result = simulator.assembleAndLoad(code);
+            const error = result && (result[0] instanceof Error);
             setNonce(n => n + 1);
-            setAssembled((result && (result[0] instanceof Error)) ? false : true);
+            setAssembled(error ? false : true);
+
+            if (error) {
+                setErrorMarkers(result);
+            } else if (monacoInstance && editorInstance) {
+                const model = editorInstance.getModel();
+                if (model) {
+                    monacoInstance.editor.setModelMarkers(model, 'owner', []);
+                }
+            }
+
             if (result) console.log(result);
             else console.log(simulator.memory);
         }
     };
+
+    const setErrorMarkers = (errors: Error[]) => {
+        if (editorInstance && monacoInstance) {
+            const markers = errors.map(err => ({
+                startLineNumber: (err.line ?? 0) + 1,
+                startColumn: 1,
+                endLineNumber: (err.line ?? 0) + 1,
+                endColumn: 100,
+                message: err.message,
+                severity: 8,
+            }));
+
+            const model = editorInstance.getModel();
+
+            if (model) {
+                monacoInstance.editor.setModelMarkers(model, 'owner', markers);
+            }
+        }
+    }
 
     const runCycle = (c: number) => {
         if (c > 1) {
