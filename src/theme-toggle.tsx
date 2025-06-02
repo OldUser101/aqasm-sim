@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { monacoInstance } from "./editor/monaco-instance";
+import { monacoInstance } from "./editor/instance";
 
 const applyTheme = (theme: "light" | "dark") => {
     document.documentElement.setAttribute("data-theme", theme);

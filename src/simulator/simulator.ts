@@ -52,12 +52,12 @@ export class Simulator {
 
             let x = 0;
             for (let i of (assembled as Instruction[])) {
-                this.memory[x] = i.opcode;
+                this.memory[x] = i.opcode & 0xFF;
                 x++;
 
                 for (let j of i.operands) {
                     if (!(j instanceof LabelReference)) {
-                        this.memory[x] = j;
+                        this.memory[x] = j & 0xFF;
                         x++;
                     }
                 }

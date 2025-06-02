@@ -2,24 +2,25 @@ import { CodeEditor } from "./editor";
 import { useState, useCallback } from "react";
 import { ThemeToggle } from "./theme-toggle";
 import { InfoCard } from "./info-card";
-import { editorInstance, monacoInstance } from "./editor/monaco-instance";
+import { editorInstance, monacoInstance } from "./editor/instance";
 
 import './App.css';
 import { Simulator } from "./simulator/simulator";
 import { MyHexEditor } from "./hex-editor";
 import { Error } from "./simulator/error";
+import { CPUState } from "./cpu";
 
 export default function App() {
     const [simulator] = useState<Simulator>(new Simulator());
     const [assembled, setAssembled] = useState<boolean>(false);
-    const [nonce, setNonce] = useState(0);
+    const [_, setReRender] = useState(0);
 
     const runParser = () => {
         if (editorInstance) {
             const code = editorInstance.getValue();
             const result = simulator.assembleAndLoad(code);
             const error = result && (result[0] instanceof Error);
-            setNonce(n => n + 1);
+            setReRender(n => n + 1);
             setAssembled(error ? false : true);
 
             if (error) {
@@ -71,7 +72,7 @@ export default function App() {
             console.error(`${r.line ? r.line : ""}: ${r.message}`);
         }
 
-        setNonce(n => n + 1);
+        setReRender(n => n + 1);
 
         console.log(simulator.cpu);
     }
@@ -80,7 +81,7 @@ export default function App() {
         <div className="layout">
             <div className="header">
                 <ThemeToggle/>
-                <button onClick={runParser}>Assemble & Log</button>
+                <button onClick={runParser}>Assemble</button>
                 <button onClick={() => runCycle(0)}>Run Cycle</button>
             </div>
             <div className="grid">
@@ -92,6 +93,7 @@ export default function App() {
                 </div>
                 <CodeEditor/>
                 <div className="status-col">
+                    <CPUState sim={simulator}/>
                     <MyHexEditor simulator={simulator}/>
                 </div>
             </div>

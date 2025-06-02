@@ -1,16 +1,17 @@
 "use client";
 import Editor from '@monaco-editor/react';
+import './editor.css';
 
-import { setInstances } from './editor/monaco-instance';
+import { setInstances } from './editor/instance';
 
 export function CodeEditor() {
     return (
-        <div>
+        <div className="editor">
             <Editor
                 defaultLanguage="aqa-asm"
                 defaultValue={`; Start typing your code here\n`}
                 onMount={setInstances}
-                options={{ 
+                options={{
                     automaticLayout: true,
                     minimap: {
                         enabled: false
