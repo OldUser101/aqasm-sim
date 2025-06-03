@@ -1,14 +1,14 @@
 import { CodeEditor } from "./editor";
-import { useState, useCallback } from "react";
+import { useState } from "react";
 import { ThemeToggle } from "./theme-toggle";
 import { InfoCard } from "./info-card";
-import { editorInstance, monacoInstance } from "./editor/instance";
-
-import './App.css';
+import { editorInstance, monacoInstance, decorations } from "./editor/instance";
 import { Simulator } from "./simulator/simulator";
 import { MyHexEditor } from "./hex-editor";
 import { Error } from "./simulator/error";
 import { CPUState } from "./cpu";
+
+import './App.css';
 
 export default function App() {
     const [simulator] = useState<Simulator>(new Simulator());
@@ -56,6 +56,23 @@ export default function App() {
         }
     }
 
+    const setLineMarker = (line: number) => {
+        if (editorInstance && monacoInstance && decorations) {
+            decorations.clear()
+
+            decorations.set([
+                {
+                    range: new monacoInstance.Range(line, 1, line, 1),
+                    options: {
+                        isWholeLine: true,
+                        className: 'debugLineHighlight',
+                        glyphMarginClassName: 'debugGlyph',
+                    },
+                },
+            ]);
+        }       
+    }
+
     const runCycle = (c: number) => {
         if (c > 1) {
             return;
@@ -72,9 +89,17 @@ export default function App() {
             console.error(`${r.line ? r.line : ""}: ${r.message}`);
         }
 
+        // setLineMarker(simulator.parsedInstructions[simulator.instructionsExecuted].line + 1);
+
         setReRender(n => n + 1);
 
         console.log(simulator.cpu);
+    }
+
+    const resetCpu = () => {
+        simulator.reset();
+        setAssembled(false);
+        setReRender(n => n + 1);
     }
 
     return (
@@ -83,6 +108,7 @@ export default function App() {
                 <ThemeToggle/>
                 <button onClick={runParser}>Assemble</button>
                 <button onClick={() => runCycle(0)}>Run Cycle</button>
+                <button onClick={resetCpu}>Reset</button>
             </div>
             <div className="grid">
                 <div className="files-col">

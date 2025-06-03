@@ -5,10 +5,6 @@ import type { Memory } from "./memory";
 export class Instruction {
     opcode: number = 0;
     operands: (number | LabelReference)[] = [];
-
-    execute(cpu: CPU, memory: Memory): void {
-
-    }
 }
 
 export class ParsedInstruction {

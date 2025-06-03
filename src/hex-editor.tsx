@@ -3,6 +3,8 @@ import customTheme from './hex-editor/custom';
 import type { Simulator } from './simulator/simulator';
 import { useState, useCallback } from 'react';
 
+import './hex-editor.css'
+
 interface Props {
     simulator: Simulator
 }
@@ -16,13 +18,15 @@ export function MyHexEditor({ simulator }: Props) {
     }, [simulator]);
 
     return (
-        <HexEditor
-            columns={16}
-            data={simulator.memory}
-            nonce={nonce}
-            onSetValue={handleSetValue}
-            theme={{ hexEditor: customTheme }}
-            showAscii
-        />
+        <div className="hex-editor">
+            <HexEditor
+                columns={16}
+                data={simulator.memory}
+                nonce={nonce}
+                onSetValue={handleSetValue}
+                theme={{ hexEditor: customTheme }}            
+                showAscii
+            />
+        </div>
     );
 }

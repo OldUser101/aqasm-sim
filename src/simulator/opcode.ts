@@ -23,7 +23,7 @@ export class Opcode {
 export type ArithmeticOperation = 'ADD' | 'SUB' | 'AND' | 'ORR' | 'EOR' | 'LSL' | 'LSR';
 export type CompareResult = '' | 'EQ' | 'GT' | 'LT';
 
-function OP_NOP(sim: Simulator): null {
+function OP_NOP(): null {
     return null;
 }
 

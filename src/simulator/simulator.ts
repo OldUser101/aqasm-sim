@@ -12,6 +12,7 @@ export class Simulator {
     pc: number = 0;
     instructionsExecuted: number = 0;
     instructions: Instruction[] = [];
+    parsedInstructions: ParsedInstruction[] = [];
     sigTable: SignatureTable = new SignatureTable();
 
     constructor() {
@@ -19,6 +20,7 @@ export class Simulator {
         this.pc = 0;
         this.instructionsExecuted = 0;
         this.instructions = [];
+        this.parsedInstructions = [];
         this.cpu.reset();
     }
 
@@ -27,6 +29,7 @@ export class Simulator {
         this.pc = 0;
         this.instructionsExecuted = 0;
         this.instructions = [];
+        this.parsedInstructions = [];
         this.cpu.reset();
     }
 
@@ -43,6 +46,8 @@ export class Simulator {
         assembler.loadSigTable(DEFAULT_SIGNATURES);
 
         const parsed: ParsedInstruction[] = Parser.parse(source, context);
+        this.parsedInstructions = parsed;
+        
         const assembled: Instruction[] | Error[] = assembler.assemble(parsed, context);
 
         if (assembled.length > 0 && assembled[0] instanceof Error) {
@@ -97,6 +102,8 @@ export class Simulator {
         if (sig.opcode.exec(this) !== null) {
             return new Error(null, `Error executing opcode: ${opcode} at 0x${origPc}`);            
         }
+
+        this.instructionsExecuted++;
 
         return null;
     }

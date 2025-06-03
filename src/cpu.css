@@ -1,4 +1,24 @@
-.cpu-view {
+.cpu-state-view {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 0.5em;
+}
+
+.cpu-reg-view {
     display: grid;
     grid-template-columns: 1fr 1fr;
+}
+
+.register-view {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+}
+
+.cpu-state-view {
+    font-weight: bold;
+    color: var(--text-muted);
+}
+
+.cpu-state-active {
+    color: var(--text);
 }
