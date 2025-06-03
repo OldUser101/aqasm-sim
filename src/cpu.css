@@ -1,24 +1,35 @@
+.cpu-view {
+    margin: 0 auto;
+}
+
 .cpu-state-view {
     display: flex;
     gap: 10px;
-    margin-bottom: 0.5em;
+    font-weight: bold;
+    color: var(--text-muted);
+    justify-content: center;
 }
 
 .cpu-reg-view {
     display: grid;
     grid-template-columns: 1fr 1fr;
+    column-gap: 0.5em;
+    margin-bottom: 1em;
 }
 
-.register-view {
-    margin-top: 0.5em;
-    margin-bottom: 0.5em;
+.register-container {
+    display: grid;
+    grid-template-columns: 3em 6em 3.5em 3em;
 }
 
-.cpu-state-view {
-    font-weight: bold;
-    color: var(--text-muted);
+.register-container p {
+    margin: 0.5em 0;
 }
 
 .cpu-state-active {
     color: var(--text);
+}
+
+.cpu-state-object {
+    margin: 0.5em;
 }
