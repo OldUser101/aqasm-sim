@@ -46,13 +46,13 @@
 }
 
 .debugLineHighlight {
-    background-color: rgba(255, 0, 0, 0.3);
+    background-color: var(--monaco-debug-highlight);
 }
 
-.debugGlyph {
-    background-color: red;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    margin-left: 4px;
+.loading-view {
+    display: grid;
+    place-items: center;
+    height: 100vh;
+    color: var(--text);
+    background-color: var(--bg); 
 }

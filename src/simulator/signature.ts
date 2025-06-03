@@ -27,6 +27,7 @@ export class Signature {
         const i: Instruction = new Instruction();
 
         i.opcode = this.opcode.code;
+        i.line = instruction.line;
 
         for (let j = 0; j < instruction.operands.length; j++) {
             const n = this.operands[j].parse(instruction.operands[j], instruction.line);

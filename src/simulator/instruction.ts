@@ -1,10 +1,9 @@
-import type { CPU } from "./cpu";
 import type { LabelReference } from "./label";
-import type { Memory } from "./memory";
 
 export class Instruction {
     opcode: number = 0;
     operands: (number | LabelReference)[] = [];
+    line: number = 0;
 }
 
 export class ParsedInstruction {

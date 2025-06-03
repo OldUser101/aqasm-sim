@@ -11,6 +11,7 @@ export class Simulator {
     memory: number[];
     pc: number = 0;
     instructionsExecuted: number = 0;
+    currentInstruction: number = 0;
     instructions: Instruction[] = [];
     parsedInstructions: ParsedInstruction[] = [];
     sigTable: SignatureTable = new SignatureTable();
@@ -21,6 +22,7 @@ export class Simulator {
         this.instructionsExecuted = 0;
         this.instructions = [];
         this.parsedInstructions = [];
+        this.currentInstruction = 0;
         this.cpu.reset();
     }
 
@@ -30,6 +32,7 @@ export class Simulator {
         this.instructionsExecuted = 0;
         this.instructions = [];
         this.parsedInstructions = [];
+        this.currentInstruction = 0;
         this.cpu.reset();
     }
 
@@ -83,6 +86,21 @@ export class Simulator {
         }
 
         return n;
+    }
+
+    lineFromPc(): number | null {
+        let tempPc: number = 0
+
+        for (let i of this.instructions) {
+            console.log(`${tempPc} => ${this.pc}`);
+            if (tempPc === this.pc) {
+                console.log(i.line)
+                return i.line;
+            }
+            tempPc += 1 + i.operands.length;
+        }
+
+        return null;
     }
 
     runCycle(): Error | null {
