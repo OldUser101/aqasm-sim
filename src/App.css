@@ -53,6 +53,8 @@
     display: grid;
     place-items: center;
     height: 100vh;
+    padding: 4em;
     color: var(--text);
+    text-align: center;
     background-color: var(--bg); 
 }
