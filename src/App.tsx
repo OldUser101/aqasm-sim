@@ -81,7 +81,7 @@ export default function App() {
                     <svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-tablet-smartphone-icon lucide-tablet-smartphone"><rect width="10" height="14" x="3" y="8" rx="2"/><path d="M5 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2h-2.4"/><path d="M8 18h.01"/></svg>
                     <h2>Screen too small</h2>
                     <p>It is recommended to view this page on a desktop browser.</p>
-                    <button onClick={() => setIgnoreScreenSize(true)}>Continue Anyway</button>
+                    <button className="button" onClick={() => setIgnoreScreenSize(true)}>Continue Anyway</button>
                 </div>        
             </div>
         );

@@ -6,6 +6,7 @@ import type { SimulatorRunMode } from "../settings";
 export class SimulatorInterface {
     simulator: Simulator = new Simulator();
     assembled: boolean = false;
+    running: boolean = false;
     runMode: SimulatorRunMode;
     clock: number | null = null;
     clockSpeed: number;
@@ -22,6 +23,12 @@ export class SimulatorInterface {
 
     setRunMode(runMode: SimulatorRunMode) {
         this.runMode = runMode;
+
+        if (this.runMode === 'MAN') {
+            this.stopClock();
+        } else if (this.running) {
+            this.startClock();
+        }
     }
 
     setClockSpeed(clockSpeed: number) {
@@ -74,6 +81,7 @@ export class SimulatorInterface {
     run() {
         if (this.runMode === 'MAN') {
             this.runCycle(0);
+            this.running = true;
         } else {
             this.startClock();
         }
@@ -146,6 +154,7 @@ export class SimulatorInterface {
     resetCpu() {
         this.simulator.reset();
         this.assembled = false;
+        this.running = false;
         this.stopClock();
 
         if (decorations) {
