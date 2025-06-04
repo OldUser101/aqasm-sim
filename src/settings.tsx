@@ -18,7 +18,8 @@ export function SimulatorSettings({ runMode, clockSpeed, modeSwitchHandler, cloc
                 <div className="indent">
                     <label>
                         <input 
-                            type="radio" 
+                            type="radio"
+                            className="radio"
                             name="run-mode"
                             value="MAN"
                             checked={runMode === "MAN"}
@@ -28,7 +29,8 @@ export function SimulatorSettings({ runMode, clockSpeed, modeSwitchHandler, cloc
                     </label>
                     <label>
                         <input 
-                            type="radio" 
+                            type="radio"
+                            className="radio"
                             name="run-mode" 
                             value="AUTO"
                             checked={runMode === "AUTO"}
@@ -42,6 +44,7 @@ export function SimulatorSettings({ runMode, clockSpeed, modeSwitchHandler, cloc
                         <span className="value-text">Speed:</span>
                         <input 
                             type="number"
+                            className="spinbox"
                             min="1"
                             max="10"
                             step="1"

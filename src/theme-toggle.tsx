@@ -25,7 +25,7 @@ export function ThemeToggle() {
     };
 
     return (
-        <button onClick={toggle}>
+        <button className="button" onClick={toggle}>
             Toggle Theme
         </button>
     );

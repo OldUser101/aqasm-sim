@@ -20,7 +20,7 @@ export default function App() {
     const [simInterface, setSimInterface] = useState<SimulatorInterface | null>(null);
 
     const checkScreenSize = () => {
-        setTooSmall(window.innerWidth < 1000 || window.innerHeight < 764);
+        setTooSmall(window.innerWidth < 1000 || window.innerHeight < 540);
     };
 
     const changeRunMode = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -99,9 +99,9 @@ export default function App() {
         <div className="layout">
             <div className="header">
                 <ThemeToggle/>
-                <button onClick={simInterface.assembleSource}>Assemble</button>
-                <button onClick={() => simInterface.run()}>Run Cycle</button>
-                <button onClick={simInterface.resetCpu}>Reset</button>
+                <button className="button" onClick={simInterface.assembleSource}>Assemble</button>
+                <button className="button" onClick={() => simInterface.run()}>Run Cycle</button>
+                <button className="button" onClick={simInterface.resetCpu}>Reset</button>
             </div>
             <div className="grid">
                 <div className="files-col">

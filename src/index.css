@@ -14,6 +14,21 @@
     --hex-cursor-selection-background: #c4c4c4;
     --monaco-debug-highlight: rgba(255, 165, 0, 0.2);
     --border: #cccccc;
+    --button-bg: #e0e0e0;
+    --button-hover: #d5d5d5;
+    --button-active: #cccccc;
+    --button-border: #b3b3b3;
+    --button-text: var(--text);
+    --radio-bg: #f3f3f3;
+    --radio-border: #a0a0a0;
+    --radio-checked-bg: #cfcfcf;
+    --radio-checked-border: #5f6673;
+    --radio-focus: #9ca3af;
+    --spinbox-bg: #ffffff;
+    --spinbox-text: var(--text);
+    --spinbox-border: #b3b3b3;
+    --spinbox-hover: #f0f0f0;
+    --spinbox-focus: #9ca3af;
 }
 
 :root[data-theme="dark"] {
@@ -30,6 +45,87 @@
     --hex-cursor-selection-background: #5f6673;
     --monaco-debug-highlight: rgba(255, 215, 0, 0.15);
     --border: #3a3a3a;
+    --button-bg: #3a3a3a;
+    --button-hover: #444;
+    --button-active: #4e4e4e;
+    --button-border: #555;
+    --button-text: var(--text);
+    --radio-bg: #252526;
+    --radio-border: #666;
+    --radio-checked-bg: #555;
+    --radio-checked-border: #9ca3af;
+    --radio-focus: #b7bcc6;
+    --spinbox-bg: #2f2f2f;
+    --spinbox-text: var(--text);
+    --spinbox-border: #555;
+    --spinbox-hover: #3a3a3a;
+    --spinbox-focus: #b7bcc6;
+}
+
+.button {
+    padding: 0.5em 1em;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s, border-color 0.2s;
+    border: 1px solid var(--button-border);
+    background-color: var(--button-bg);
+    color: var(--button-text);
+}
+
+.button:hover {
+    background-color: var(--button-hover);
+}
+
+.button:active {
+    background-color: var(--button-active);
+}
+
+.radio {
+    appearance: none;
+    width: 1em;
+    height: 1em;
+    border: 2px solid var(--radio-border);
+    border-radius: 50%;
+    background-color: var(--radio-bg);
+    cursor: pointer;
+    transition: background-color 0.2s, border-color 0.2s;
+    position: relative;
+}
+
+.radio:checked {
+    background-color: var(--radio-checked-bg);
+    border-color: var(--radio-checked-border);
+}
+
+.radio:focus-visible {
+    outline: 2px solid var(--radio-focus);
+    outline-offset: 2px;
+}
+
+.spinbox {
+    background-color: var(--spinbox-bg);
+    color: var(--spinbox-text);
+    border: 1px solid var(--spinbox-border);
+    padding: 0.3em 0.5em;
+    border-radius: 4px;
+    width: 5em;
+    transition: border-color 0.2s, background-color 0.2s;
+    -moz-appearance: textfield;
+}
+
+.spinbox::-webkit-outer-spin-button,
+.spinbox::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.spinbox:hover {
+    background-color: var(--spinbox-hover);
+}
+
+.spinbox:focus {
+    outline: 2px solid var(--spinbox-focus);
+    outline-offset: 1px;
 }
 
 body {
