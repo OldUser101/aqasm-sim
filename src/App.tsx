@@ -9,11 +9,13 @@ import './App.css';
 import { SimulatorInterface } from "./simulator/interface";
 import { SimulatorSettings } from "./settings";
 import type { SimulatorRunMode } from "./settings";
+import { getStorageItem } from "./storage";
 
 export default function App() {
     const [tooSmall, setTooSmall] = useState<boolean>(false);
     const [ignoreScreenSize, setIgnoreScreenSize] = useState<boolean>(false);
-    const [runMode, setRunMode] = useState<SimulatorRunMode>('AUTO');
+    const [runMode, setRunMode] = useState<SimulatorRunMode>('MAN');
+    const [clockSpeed, setClockSpeed] = useState<number>(1);
     const [_, setReRender] = useState(0);
     const [simInterface, setSimInterface] = useState<SimulatorInterface | null>(null);
 
@@ -23,7 +25,25 @@ export default function App() {
 
     const changeRunMode = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (simInterface) {
+            localStorage.setItem("run-mode", event.target.value);
+            setRunMode(event.target.value as SimulatorRunMode)
             simInterface.setRunMode(event.target.value as SimulatorRunMode);
+        }
+    }
+
+    const changeClockSpeed = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (simInterface) {
+            let speed: number = parseInt(event.target.value);
+
+            if (speed < 1) {
+                speed = 1;
+            } else if (speed > 10) {
+                speed = 10;
+            }
+
+            localStorage.setItem("clock-speed", speed.toString());
+            setClockSpeed(speed);
+            simInterface.setClockSpeed(isNaN(speed) ? 1 : speed);
         }
     }
 
@@ -38,7 +58,19 @@ export default function App() {
     }, [])
 
     useEffect(() => {
-        const sInstance = new SimulatorInterface(setReRender, runMode);
+        const savedRunMode = getStorageItem("run-mode", "MAN", (value: string) => {
+            return (value === 'MAN' || value === 'AUTO');
+        }) as SimulatorRunMode;
+        setRunMode(savedRunMode);
+
+        let savedClockSpeed = parseInt(getStorageItem("clock-speed", "1", (value: string) => {
+            return (!isNaN(parseInt(value)));
+        }));
+        setClockSpeed(savedClockSpeed);
+
+        savedClockSpeed = isNaN(savedClockSpeed) ? 1 : savedClockSpeed;
+
+        const sInstance = new SimulatorInterface(setReRender, savedRunMode, savedClockSpeed);
         setSimInterface(sInstance);
     }, [])
 
@@ -82,7 +114,7 @@ export default function App() {
                 <div className="status-col">
                     <CPUState sim={simInterface.simulator}/>
                     <MyHexEditor simulator={simInterface.simulator}/>
-                    <SimulatorSettings runMode={runMode} modeSwitchHandler={changeRunMode}/>
+                    <SimulatorSettings runMode={runMode} clockSpeed={clockSpeed} modeSwitchHandler={changeRunMode} clockSpeedHandler={changeClockSpeed}/>
                 </div>
             </div>
         </div>

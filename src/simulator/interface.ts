@@ -8,11 +8,13 @@ export class SimulatorInterface {
     assembled: boolean = false;
     runMode: SimulatorRunMode;
     clock: number | null = null;
+    clockSpeed: number;
     setReRender: React.Dispatch<React.SetStateAction<number>>;
 
-    constructor(setReRender: React.Dispatch<React.SetStateAction<number>>, runMode: SimulatorRunMode) {
+    constructor(setReRender: React.Dispatch<React.SetStateAction<number>>, runMode: SimulatorRunMode, clockSpeed: number) {
         this.setReRender = setReRender;
         this.runMode = runMode;
+        this.clockSpeed = clockSpeed;
         this.runCycle = this.runCycle.bind(this);
         this.assembleSource = this.assembleSource.bind(this);
         this.resetCpu = this.resetCpu.bind(this);
@@ -22,12 +24,25 @@ export class SimulatorInterface {
         this.runMode = runMode;
     }
 
+    setClockSpeed(clockSpeed: number) {
+        const lastClock: number | null = this.clock;
+        if (this.clock) {
+            this.stopClock();
+        }
+
+        this.clockSpeed = clockSpeed;
+
+        if (lastClock) {
+            this.startClock();
+        }
+    }
+
     startClock() {
         if (this.clock) return;
 
         this.clock = window.setInterval(() => {
             this.runCycle(0);
-        }, 1000);
+        }, (1 / this.clockSpeed) * 1000);
     }
 
     stopClock() {
