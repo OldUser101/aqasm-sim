@@ -1,6 +1,6 @@
 import { CodeEditor } from "./editor";
 import { useEffect, useState } from "react";
-import { loadTheme, ThemeToggle } from "./theme-toggle";
+import { loadTheme } from "./theme-toggle";
 import { InfoCard } from "./info-card";
 import { MyHexEditor } from "./hex-editor";
 import { CPUState } from "./cpu";
@@ -10,6 +10,7 @@ import { SimulatorInterface } from "./simulator/interface";
 import { SimulatorSettings } from "./settings";
 import type { SimulatorRunMode } from "./settings";
 import { getStorageItem } from "./storage";
+import { Header } from "./header";
 
 export default function App() {
     const [tooSmall, setTooSmall] = useState<boolean>(false);
@@ -97,12 +98,7 @@ export default function App() {
 
     return (
         <div className="layout">
-            <div className="header">
-                <ThemeToggle/>
-                <button className="button" onClick={simInterface.assembleSource}>Assemble</button>
-                <button className="button" onClick={() => simInterface.run()}>Run Cycle</button>
-                <button className="button" onClick={simInterface.resetCpu}>Reset</button>
-            </div>
+            <Header assemble={simInterface.assembleSource} run={simInterface.run} reset={simInterface.resetCpu}/>
             <div className="grid">
                 <div className="files-col">
                     <div>

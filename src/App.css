@@ -5,15 +5,6 @@
     background-color: var(--bg);
 }
 
-.header {
-    padding: 0.25rem;
-    grid-column: 1 / -1;
-    height: 4vh;
-    background-color: var(--header);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    z-index: 10;
-}
-
 .grid {
     display: flex;
     width: 100vw;
