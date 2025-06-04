@@ -1,6 +1,8 @@
 import { Instruction, type ParsedInstruction } from "./instruction";
+import type { LabelReference } from "./label";
 import { type Opcode, DEFAULT_OPCODES } from "./opcode";
 import { ImmediateOperand, LabelOperand, ReferenceOperand, RegisterOperand, type Operand } from "./operand";
+import { Error } from "./error";
 
 export class Signature {
     readonly opcode: Opcode;
@@ -19,7 +21,7 @@ export class Signature {
         return this.operands.every((op, i) => op.matches(instruction.operands[i]));
     }
 
-    parse(instruction: ParsedInstruction): Instruction | null {
+    parse(instruction: ParsedInstruction): Instruction | Error | null {
         if (instruction.opcode !== this.opcode.name || instruction.operands.length !== this.operands.length) {
             return null;
         }
@@ -33,9 +35,9 @@ export class Signature {
             const n = this.operands[j].parse(instruction.operands[j], instruction.line);
 
             // Don't use !n as an operand could evaluate to 0
-            if (n === null) return null;
+            if (n instanceof Error) return n;
 
-            i.operands.push(n);
+            i.operands.push(n as number | LabelReference);
         }
 
         return i;

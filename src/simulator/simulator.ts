@@ -10,29 +10,24 @@ export class Simulator {
     cpu: CPU = new CPU()
     memory: number[];
     pc: number = 0;
-    instructionsExecuted: number = 0;
-    currentInstruction: number = 0;
     instructions: Instruction[] = [];
+    source: string[] = [];
     parsedInstructions: ParsedInstruction[] = [];
     sigTable: SignatureTable = new SignatureTable();
 
     constructor() {
         this.memory = new Array(256).fill(0);
         this.pc = 0;
-        this.instructionsExecuted = 0;
         this.instructions = [];
         this.parsedInstructions = [];
-        this.currentInstruction = 0;
         this.cpu.reset();
     }
 
     reset() {
         this.resetMemory();
         this.pc = 0;
-        this.instructionsExecuted = 0;
         this.instructions = [];
         this.parsedInstructions = [];
-        this.currentInstruction = 0;
         this.cpu.reset();
     }
 
@@ -42,6 +37,8 @@ export class Simulator {
 
     assembleAndLoad(source: string): Error[] | null {
         this.reset();
+
+        this.source = source.split('\n');
         
         const context: ParseContext = new ParseContext();
         const assembler: Assembler = new Assembler();
@@ -118,8 +115,6 @@ export class Simulator {
         if (sig.opcode.exec(this) !== null) {
             return new Error(null, `Error executing opcode: ${opcode} at 0x${origPc}`);            
         }
-
-        this.instructionsExecuted++;
 
         return null;
     }

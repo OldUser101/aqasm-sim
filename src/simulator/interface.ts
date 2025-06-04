@@ -122,7 +122,7 @@ export class SimulatorInterface {
                 startLineNumber: (err.line ?? 0) + 1,
                 startColumn: 1,
                 endLineNumber: (err.line ?? 0) + 1,
-                endColumn: 100,
+                endColumn: this.simulator.source[err.line ?? 1].length + 1,
                 message: err.message,
                 severity: 8,
             }));
