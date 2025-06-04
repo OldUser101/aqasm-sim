@@ -1,17 +1,40 @@
 import { Simulator } from "./simulator";
 import { editorInstance, monacoInstance, decorations } from "../editor/instance";
 import { Error } from "./error";
+import type { SimulatorRunMode } from "../settings";
 
 export class SimulatorInterface {
     simulator: Simulator = new Simulator();
     assembled: boolean = false;
+    runMode: SimulatorRunMode;
+    clock: number | null = null;
     setReRender: React.Dispatch<React.SetStateAction<number>>;
 
-    constructor(setReRender: React.Dispatch<React.SetStateAction<number>>) {
+    constructor(setReRender: React.Dispatch<React.SetStateAction<number>>, runMode: SimulatorRunMode) {
         this.setReRender = setReRender;
+        this.runMode = runMode;
         this.runCycle = this.runCycle.bind(this);
         this.assembleSource = this.assembleSource.bind(this);
         this.resetCpu = this.resetCpu.bind(this);
+    }
+
+    setRunMode(runMode: SimulatorRunMode) {
+        this.runMode = runMode;
+    }
+
+    startClock() {
+        if (this.clock) return;
+
+        this.clock = window.setInterval(() => {
+            this.runCycle(0);
+        }, 1000);
+    }
+
+    stopClock() {
+        if (this.clock) {
+            clearInterval(this.clock);
+            this.clock = null;
+        }
     }
 
     assembleSource() {
@@ -30,6 +53,14 @@ export class SimulatorInterface {
                     monacoInstance.editor.setModelMarkers(model, 'owner', []);
                 }
             }
+        }
+    }
+
+    run() {
+        if (this.runMode === 'MAN') {
+            this.runCycle(0);
+        } else {
+            this.startClock();
         }
     }
 
@@ -52,6 +83,11 @@ export class SimulatorInterface {
         const line: number | null = this.simulator.lineFromPc();
         if (line) {
             this.setDebugMarker(line + 1);
+        }
+
+        if (this.simulator.cpu.halt && decorations) {
+            decorations.clear();
+            this.stopClock();
         }
 
         this.setReRender(n => n + 1);
@@ -95,6 +131,7 @@ export class SimulatorInterface {
     resetCpu() {
         this.simulator.reset();
         this.assembled = false;
+        this.stopClock();
 
         if (decorations) {
             decorations.clear();

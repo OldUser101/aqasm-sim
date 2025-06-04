@@ -92,9 +92,7 @@ export class Simulator {
         let tempPc: number = 0
 
         for (let i of this.instructions) {
-            console.log(`${tempPc} => ${this.pc}`);
             if (tempPc === this.pc) {
-                console.log(i.line)
                 return i.line;
             }
             tempPc += 1 + i.operands.length;

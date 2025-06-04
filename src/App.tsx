@@ -7,16 +7,25 @@ import { CPUState } from "./cpu";
 
 import './App.css';
 import { SimulatorInterface } from "./simulator/interface";
+import { SimulatorSettings } from "./settings";
+import type { SimulatorRunMode } from "./settings";
 
 export default function App() {
     const [tooSmall, setTooSmall] = useState<boolean>(false);
     const [ignoreScreenSize, setIgnoreScreenSize] = useState<boolean>(false);
+    const [runMode, setRunMode] = useState<SimulatorRunMode>('AUTO');
     const [_, setReRender] = useState(0);
     const [simInterface, setSimInterface] = useState<SimulatorInterface | null>(null);
 
     const checkScreenSize = () => {
         setTooSmall(window.innerWidth < 1000 || window.innerHeight < 764);
     };
+
+    const changeRunMode = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (simInterface) {
+            simInterface.setRunMode(event.target.value as SimulatorRunMode);
+        }
+    }
 
     useEffect(() => {
         checkScreenSize();
@@ -29,7 +38,7 @@ export default function App() {
     }, [])
 
     useEffect(() => {
-        const sInstance = new SimulatorInterface(setReRender);
+        const sInstance = new SimulatorInterface(setReRender, runMode);
         setSimInterface(sInstance);
     }, [])
 
@@ -59,7 +68,7 @@ export default function App() {
             <div className="header">
                 <ThemeToggle/>
                 <button onClick={simInterface.assembleSource}>Assemble</button>
-                <button onClick={() => simInterface.runCycle(0)}>Run Cycle</button>
+                <button onClick={() => simInterface.run()}>Run Cycle</button>
                 <button onClick={simInterface.resetCpu}>Reset</button>
             </div>
             <div className="grid">
@@ -73,6 +82,7 @@ export default function App() {
                 <div className="status-col">
                     <CPUState sim={simInterface.simulator}/>
                     <MyHexEditor simulator={simInterface.simulator}/>
+                    <SimulatorSettings runMode={runMode} modeSwitchHandler={changeRunMode}/>
                 </div>
             </div>
         </div>
