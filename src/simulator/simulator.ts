@@ -7,7 +7,7 @@ import { DEFAULT_SIGNATURES, SignatureTable } from "./signature";
 import { LabelReference } from "./label";
 
 export class Simulator {
-    cpu: CPU = new CPU()
+    cpu: CPU = new CPU();
     memory: number[];
     pc: number = 0;
     instructions: Instruction[] = [];
@@ -38,8 +38,8 @@ export class Simulator {
     assembleAndLoad(source: string): Error[] | null {
         this.reset();
 
-        this.source = source.split('\n');
-        
+        this.source = source.split("\n");
+
         const context: ParseContext = new ParseContext();
         const assembler: Assembler = new Assembler();
 
@@ -47,8 +47,11 @@ export class Simulator {
 
         const parsed: ParsedInstruction[] = Parser.parse(source, context);
         this.parsedInstructions = parsed;
-        
-        const assembled: Instruction[] | Error[] = assembler.assemble(parsed, context);
+
+        const assembled: Instruction[] | Error[] = assembler.assemble(
+            parsed,
+            context
+        );
 
         if (assembled.length > 0 && assembled[0] instanceof Error) {
             return assembled as Error[];
@@ -56,13 +59,13 @@ export class Simulator {
             this.instructions = assembled as Instruction[];
 
             let x = 0;
-            for (let i of (assembled as Instruction[])) {
-                this.memory[x] = i.opcode & 0xFF;
+            for (let i of assembled as Instruction[]) {
+                this.memory[x] = i.opcode & 0xff;
                 x++;
 
                 for (let j of i.operands) {
                     if (!(j instanceof LabelReference)) {
-                        this.memory[x] = j & 0xFF;
+                        this.memory[x] = j & 0xff;
                         x++;
                     }
                 }
@@ -86,7 +89,7 @@ export class Simulator {
     }
 
     lineFromPc(): number | null {
-        let tempPc: number = 0
+        let tempPc: number = 0;
 
         for (let i of this.instructions) {
             if (tempPc === this.pc) {
@@ -98,7 +101,7 @@ export class Simulator {
         return null;
     }
 
-    runCycle(): Error | null {
+    runCycle(skip: boolean = false): Error | null {
         if (this.cpu.halt) {
             return null;
         }
@@ -109,11 +112,21 @@ export class Simulator {
         const sig = this.sigTable.lookup(opcode);
 
         if (sig === null) {
-            return new Error(null, `Unknown opcode: ${opcode} at 0x${origPc}`);
+            return skip
+                ? null
+                : new Error(null, `Unknown opcode: ${opcode} at 0x${origPc}`);
+        }
+
+        if (skip) {
+            this.pc += sig?.operands.length;
+            return null;
         }
 
         if (sig.opcode.exec(this) !== null) {
-            return new Error(null, `Error executing opcode: ${opcode} at 0x${origPc}`);            
+            return new Error(
+                null,
+                `Error executing opcode: ${opcode} at 0x${origPc}`
+            );
         }
 
         return null;

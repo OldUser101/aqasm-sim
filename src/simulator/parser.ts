@@ -7,7 +7,7 @@ export class ParseContext {
 
     resolveLabel(ref: LabelReference): number | Error {
         const address = this.labelAddresses.get(ref.labelName);
-        if (address === undefined) { 
+        if (address === undefined) {
             return new Error(ref.line, `Unresolved label: ${ref.labelName}`);
         }
 
@@ -20,11 +20,15 @@ export class ParseContext {
 }
 
 export class Parser {
-    private static parseLine(sourceLine: string, context: ParseContext, addrRef: { addr: number} ): ParsedInstruction | undefined {
+    private static parseLine(
+        sourceLine: string,
+        context: ParseContext,
+        addrRef: { addr: number }
+    ): ParsedInstruction | undefined {
         const instruction: ParsedInstruction = new ParsedInstruction();
 
         // Strip comments and whitespaces
-        let line = sourceLine.split(';')[0].trim().toUpperCase();
+        let line = sourceLine.split(";")[0].trim().toUpperCase();
 
         if (!line) return undefined; // Blank line
 
@@ -35,7 +39,7 @@ export class Parser {
 
             return undefined;
         }
-        
+
         const match = line.match(/^(\S+)\s+(.+)$/);
         if (!match) {
             instruction.opcode = line;
@@ -43,7 +47,7 @@ export class Parser {
         } else {
             instruction.opcode = match[1];
             const rest = match[2];
-            instruction.operands = rest.split(/\s*,\s*/).map(op => op.trim());
+            instruction.operands = rest.split(/\s*,\s*/).map((op) => op.trim());
         }
 
         addrRef.addr += 1 + instruction.operands.length;
@@ -52,16 +56,20 @@ export class Parser {
     }
 
     static parse(source: string, context: ParseContext): ParsedInstruction[] {
-        const lines = source.split('\n');
+        const lines = source.split("\n");
         const instructions: ParsedInstruction[] = [];
         const addrRef: { addr: number } = {
-            addr: 0
+            addr: 0,
         };
 
         for (let i = 0; i < lines.length; i++) {
             const line = lines[i];
 
-            const parsedLine: ParsedInstruction | undefined = this.parseLine(line, context, addrRef);
+            const parsedLine: ParsedInstruction | undefined = this.parseLine(
+                line,
+                context,
+                addrRef
+            );
 
             if (parsedLine) {
                 parsedLine.line = i;

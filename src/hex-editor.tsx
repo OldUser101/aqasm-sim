@@ -1,21 +1,24 @@
-import HexEditor from '@jixun/react-hex-editor-react-16';
-import customTheme from './hex-editor/custom';
-import type { Simulator } from './simulator/simulator';
-import { useState, useCallback } from 'react';
+import HexEditor from "@jixun/react-hex-editor-react-16";
+import customTheme from "./hex-editor/custom";
+import type { Simulator } from "./simulator/simulator";
+import { useState, useCallback } from "react";
 
-import './hex-editor.css'
+import "./hex-editor.css";
 
 interface Props {
-    simulator: Simulator
+    simulator: Simulator;
 }
 
 export function MyHexEditor({ simulator }: Props) {
     const [nonce, setNonce] = useState(0);
 
-    const handleSetValue = useCallback((offset: number, value: number) => {
-        simulator.memory[offset] = value;
-        setNonce(n => n + 1);
-    }, [simulator]);
+    const handleSetValue = useCallback(
+        (offset: number, value: number) => {
+            simulator.memory[offset] = value;
+            setNonce((n) => n + 1);
+        },
+        [simulator]
+    );
 
     return (
         <div className="hex-editor">
@@ -24,7 +27,7 @@ export function MyHexEditor({ simulator }: Props) {
                 data={simulator.memory}
                 nonce={nonce}
                 onSetValue={handleSetValue}
-                theme={{ hexEditor: customTheme }}            
+                theme={{ hexEditor: customTheme }}
                 showAscii
             />
         </div>

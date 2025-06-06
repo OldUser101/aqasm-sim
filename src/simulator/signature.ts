@@ -1,7 +1,13 @@
 import { Instruction, type ParsedInstruction } from "./instruction";
 import type { LabelReference } from "./label";
 import { type Opcode, DEFAULT_OPCODES } from "./opcode";
-import { ImmediateOperand, LabelOperand, ReferenceOperand, RegisterOperand, type Operand } from "./operand";
+import {
+    ImmediateOperand,
+    LabelOperand,
+    ReferenceOperand,
+    RegisterOperand,
+    type Operand,
+} from "./operand";
 import { Error } from "./error";
 
 export class Signature {
@@ -14,15 +20,23 @@ export class Signature {
     }
 
     matches(instruction: ParsedInstruction): boolean {
-        if (instruction.opcode !== this.opcode.name || instruction.operands.length !== this.operands.length) {
+        if (
+            instruction.opcode !== this.opcode.name ||
+            instruction.operands.length !== this.operands.length
+        ) {
             return false;
         }
 
-        return this.operands.every((op, i) => op.matches(instruction.operands[i]));
+        return this.operands.every((op, i) =>
+            op.matches(instruction.operands[i])
+        );
     }
 
     parse(instruction: ParsedInstruction): Instruction | Error | null {
-        if (instruction.opcode !== this.opcode.name || instruction.operands.length !== this.operands.length) {
+        if (
+            instruction.opcode !== this.opcode.name ||
+            instruction.operands.length !== this.operands.length
+        ) {
             return null;
         }
 
@@ -32,7 +46,10 @@ export class Signature {
         i.line = instruction.line;
 
         for (let j = 0; j < instruction.operands.length; j++) {
-            const n = this.operands[j].parse(instruction.operands[j], instruction.line);
+            const n = this.operands[j].parse(
+                instruction.operands[j],
+                instruction.line
+            );
 
             // Don't use !n as an operand could evaluate to 0
             if (n instanceof Error) return n;
@@ -59,7 +76,7 @@ export class SignatureTable {
                 if (sig.opcode.code === arg) {
                     return sig;
                 }
-            }            
+            }
         } else {
             for (let sig of this.signatures) {
                 if (sig.matches(arg)) {
@@ -74,32 +91,112 @@ export class SignatureTable {
 
 export const DEFAULT_SIGNATURES: Signature[] = [
     new Signature(DEFAULT_OPCODES["NOP"], []),
-    new Signature(DEFAULT_OPCODES["LDR"], [ new RegisterOperand(), new ReferenceOperand() ]),
-    new Signature(DEFAULT_OPCODES["STR"], [ new RegisterOperand(), new ReferenceOperand() ]),
-    new Signature(DEFAULT_OPCODES["ADD_R"], [ new RegisterOperand(), new RegisterOperand(), new RegisterOperand() ]),
-    new Signature(DEFAULT_OPCODES["ADD_I"], [ new RegisterOperand(), new RegisterOperand(), new ImmediateOperand() ]),
-    new Signature(DEFAULT_OPCODES["SUB_R"], [ new RegisterOperand(), new RegisterOperand(), new RegisterOperand() ]),
-    new Signature(DEFAULT_OPCODES["SUB_I"], [ new RegisterOperand(), new RegisterOperand(), new ImmediateOperand() ]),
-    new Signature(DEFAULT_OPCODES["MOV_R"], [ new RegisterOperand(), new RegisterOperand() ]),
-    new Signature(DEFAULT_OPCODES["MOV_I"], [ new RegisterOperand(), new ImmediateOperand() ]),
-    new Signature(DEFAULT_OPCODES["CMP_R"], [ new RegisterOperand(), new RegisterOperand() ]),
-    new Signature(DEFAULT_OPCODES["CMP_I"], [ new RegisterOperand(), new ImmediateOperand() ]),
-    new Signature(DEFAULT_OPCODES["B"], [ new LabelOperand() ]),
-    new Signature(DEFAULT_OPCODES["BEQ"], [ new LabelOperand() ]),
-    new Signature(DEFAULT_OPCODES["BNE"], [ new LabelOperand() ]),
-    new Signature(DEFAULT_OPCODES["BGT"], [ new LabelOperand() ]),
-    new Signature(DEFAULT_OPCODES["BLT"], [ new LabelOperand() ]),
-    new Signature(DEFAULT_OPCODES["AND_R"], [ new RegisterOperand(), new RegisterOperand(), new RegisterOperand() ]),
-    new Signature(DEFAULT_OPCODES["AND_I"], [ new RegisterOperand(), new RegisterOperand(), new ImmediateOperand() ]),
-    new Signature(DEFAULT_OPCODES["ORR_R"], [ new RegisterOperand(), new RegisterOperand(), new RegisterOperand() ]),
-    new Signature(DEFAULT_OPCODES["ORR_I"], [ new RegisterOperand(), new RegisterOperand(), new ImmediateOperand() ]),
-    new Signature(DEFAULT_OPCODES["EOR_R"], [ new RegisterOperand(), new RegisterOperand(), new RegisterOperand() ]),
-    new Signature(DEFAULT_OPCODES["EOR_I"], [ new RegisterOperand(), new RegisterOperand(), new ImmediateOperand() ]),
-    new Signature(DEFAULT_OPCODES["MVN_R"], [ new RegisterOperand(), new RegisterOperand() ]),
-    new Signature(DEFAULT_OPCODES["MVN_I"], [ new RegisterOperand(), new ImmediateOperand() ]),
-    new Signature(DEFAULT_OPCODES["LSL_R"], [ new RegisterOperand(), new RegisterOperand(), new RegisterOperand() ]),
-    new Signature(DEFAULT_OPCODES["LSL_I"], [ new RegisterOperand(), new RegisterOperand(), new ImmediateOperand() ]),
-    new Signature(DEFAULT_OPCODES["LSR_R"], [ new RegisterOperand(), new RegisterOperand(), new RegisterOperand() ]),
-    new Signature(DEFAULT_OPCODES["LSR_I"], [ new RegisterOperand(), new RegisterOperand(), new ImmediateOperand() ]),
-    new Signature(DEFAULT_OPCODES["HALT"], [])
+    new Signature(DEFAULT_OPCODES["LDR"], [
+        new RegisterOperand(),
+        new ReferenceOperand(),
+    ]),
+    new Signature(DEFAULT_OPCODES["STR"], [
+        new RegisterOperand(),
+        new ReferenceOperand(),
+    ]),
+    new Signature(DEFAULT_OPCODES["ADD_R"], [
+        new RegisterOperand(),
+        new RegisterOperand(),
+        new RegisterOperand(),
+    ]),
+    new Signature(DEFAULT_OPCODES["ADD_I"], [
+        new RegisterOperand(),
+        new RegisterOperand(),
+        new ImmediateOperand(),
+    ]),
+    new Signature(DEFAULT_OPCODES["SUB_R"], [
+        new RegisterOperand(),
+        new RegisterOperand(),
+        new RegisterOperand(),
+    ]),
+    new Signature(DEFAULT_OPCODES["SUB_I"], [
+        new RegisterOperand(),
+        new RegisterOperand(),
+        new ImmediateOperand(),
+    ]),
+    new Signature(DEFAULT_OPCODES["MOV_R"], [
+        new RegisterOperand(),
+        new RegisterOperand(),
+    ]),
+    new Signature(DEFAULT_OPCODES["MOV_I"], [
+        new RegisterOperand(),
+        new ImmediateOperand(),
+    ]),
+    new Signature(DEFAULT_OPCODES["CMP_R"], [
+        new RegisterOperand(),
+        new RegisterOperand(),
+    ]),
+    new Signature(DEFAULT_OPCODES["CMP_I"], [
+        new RegisterOperand(),
+        new ImmediateOperand(),
+    ]),
+    new Signature(DEFAULT_OPCODES["B"], [new LabelOperand()]),
+    new Signature(DEFAULT_OPCODES["BEQ"], [new LabelOperand()]),
+    new Signature(DEFAULT_OPCODES["BNE"], [new LabelOperand()]),
+    new Signature(DEFAULT_OPCODES["BGT"], [new LabelOperand()]),
+    new Signature(DEFAULT_OPCODES["BLT"], [new LabelOperand()]),
+    new Signature(DEFAULT_OPCODES["AND_R"], [
+        new RegisterOperand(),
+        new RegisterOperand(),
+        new RegisterOperand(),
+    ]),
+    new Signature(DEFAULT_OPCODES["AND_I"], [
+        new RegisterOperand(),
+        new RegisterOperand(),
+        new ImmediateOperand(),
+    ]),
+    new Signature(DEFAULT_OPCODES["ORR_R"], [
+        new RegisterOperand(),
+        new RegisterOperand(),
+        new RegisterOperand(),
+    ]),
+    new Signature(DEFAULT_OPCODES["ORR_I"], [
+        new RegisterOperand(),
+        new RegisterOperand(),
+        new ImmediateOperand(),
+    ]),
+    new Signature(DEFAULT_OPCODES["EOR_R"], [
+        new RegisterOperand(),
+        new RegisterOperand(),
+        new RegisterOperand(),
+    ]),
+    new Signature(DEFAULT_OPCODES["EOR_I"], [
+        new RegisterOperand(),
+        new RegisterOperand(),
+        new ImmediateOperand(),
+    ]),
+    new Signature(DEFAULT_OPCODES["MVN_R"], [
+        new RegisterOperand(),
+        new RegisterOperand(),
+    ]),
+    new Signature(DEFAULT_OPCODES["MVN_I"], [
+        new RegisterOperand(),
+        new ImmediateOperand(),
+    ]),
+    new Signature(DEFAULT_OPCODES["LSL_R"], [
+        new RegisterOperand(),
+        new RegisterOperand(),
+        new RegisterOperand(),
+    ]),
+    new Signature(DEFAULT_OPCODES["LSL_I"], [
+        new RegisterOperand(),
+        new RegisterOperand(),
+        new ImmediateOperand(),
+    ]),
+    new Signature(DEFAULT_OPCODES["LSR_R"], [
+        new RegisterOperand(),
+        new RegisterOperand(),
+        new RegisterOperand(),
+    ]),
+    new Signature(DEFAULT_OPCODES["LSR_I"], [
+        new RegisterOperand(),
+        new RegisterOperand(),
+        new ImmediateOperand(),
+    ]),
+    new Signature(DEFAULT_OPCODES["HALT"], []),
 ];

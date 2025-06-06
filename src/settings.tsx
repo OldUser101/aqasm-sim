@@ -1,23 +1,30 @@
-import './settings.css';
+import "./settings.css";
 
-export type SimulatorRunMode = 'MAN' | 'AUTO';
+export type SimulatorRunMode = "MAN" | "AUTO";
 
 interface Props {
-    runMode: SimulatorRunMode,
-    clockSpeed: number,
-    modeSwitchHandler: (event: React.ChangeEvent<HTMLInputElement>) => void,
-    clockSpeedHandler: (event: React.ChangeEvent<HTMLInputElement>) => void,
+    runMode: SimulatorRunMode;
+    clockSpeed: number;
+    modeSwitchHandler: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    clockSpeedHandler: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export function SimulatorSettings({ runMode, clockSpeed, modeSwitchHandler, clockSpeedHandler }: Props) {
+export function SimulatorSettings({
+    runMode,
+    clockSpeed,
+    modeSwitchHandler,
+    clockSpeedHandler,
+}: Props) {
     return (
         <div>
             <h3>Configuration</h3>
             <div className="indent">
-                <p><strong>Clock:</strong></p>
+                <p>
+                    <strong>Clock:</strong>
+                </p>
                 <div className="indent">
                     <label>
-                        <input 
+                        <input
                             type="radio"
                             className="radio"
                             name="run-mode"
@@ -28,21 +35,21 @@ export function SimulatorSettings({ runMode, clockSpeed, modeSwitchHandler, cloc
                         Manual
                     </label>
                     <label>
-                        <input 
+                        <input
                             type="radio"
                             className="radio"
-                            name="run-mode" 
+                            name="run-mode"
                             value="AUTO"
                             checked={runMode === "AUTO"}
                             onChange={modeSwitchHandler}
                         />
                         Automatic
                     </label>
-                </div>    
+                </div>
                 <div className="indent">
                     <label>
                         <span className="value-text">Speed:</span>
-                        <input 
+                        <input
                             type="number"
                             className="spinbox"
                             min="1"
@@ -54,7 +61,7 @@ export function SimulatorSettings({ runMode, clockSpeed, modeSwitchHandler, cloc
                         <span className="value-text">Hz</span>
                     </label>
                 </div>
-            </div>   
+            </div>
         </div>
     );
 }

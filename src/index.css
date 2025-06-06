@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 
 :root[data-theme="light"] {
     --bg: #f3f3f3;
@@ -19,6 +19,7 @@
     --button-active: #cccccc;
     --button-border: #b3b3b3;
     --button-text: var(--text);
+    --button-disabled: var(--text-muted);
     --radio-bg: #f3f3f3;
     --radio-border: #a0a0a0;
     --radio-checked-bg: #cfcfcf;
@@ -39,7 +40,7 @@
     --text-inverted: #000000;
     --text-muted-inverted: #5f6673;
     --hex-cursor-background: #9ca3af;
-    --hex-cursor-inactive-background: #5f6673; 
+    --hex-cursor-inactive-background: #5f6673;
     --hex-cursor-highlight: #f8fafd;
     --hex-cursor-inactive-highlight: #b7bcc6;
     --hex-cursor-selection-background: #5f6673;
@@ -50,6 +51,7 @@
     --button-active: #4e4e4e;
     --button-border: #555;
     --button-text: var(--text);
+    --button-disabled: var(--text-muted);
     --radio-bg: #252526;
     --radio-border: #666;
     --radio-checked-bg: #555;
@@ -78,6 +80,46 @@
 
 .button:active {
     background-color: var(--button-active);
+}
+
+.button:disabled {
+    color: var(--button-disabled);
+}
+
+.icon-button {
+    padding: 1em;
+    border: none;
+    background: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    transition: background-color 0.2s, border-color 0.2s;
+    border-width: 0;
+    background-color: var(--header);
+    color: var(--button-text);
+}
+
+.icon-button:hover {
+    background-color: var(--button-hover);
+}
+
+.icon-button:active {
+    background-color: var(--button-active);
+}
+
+.icon-button:disabled {
+    color: var(--button-disabled);
+}
+
+.disable-hide:disabled {
+    visibility: hidden;
+}
+
+.button-icon {
+    width: 1em;
+    height: 1em;
 }
 
 .radio {
@@ -110,6 +152,7 @@
     border-radius: 4px;
     width: 5em;
     transition: border-color 0.2s, background-color 0.2s;
+    appearance: textfield;
     -moz-appearance: textfield;
 }
 
@@ -129,7 +172,7 @@
 }
 
 body {
-    font-family: 'Inter', 'Arial', sans-serif;
+    font-family: "Inter", "Arial", sans-serif;
     color: var(--text);
     margin: 0;
 }

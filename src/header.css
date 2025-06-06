@@ -7,5 +7,37 @@
     z-index: 10;
 
     display: flex;
+    align-items: center;
+    position: relative;
+    width: 100%;
+}
+
+.header-group {
+    display: flex;
     gap: 0.25em;
+}
+
+.center {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.right {
+    margin-left: auto;
+}
+
+.header-slide {
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.header-hidden {
+    transform: translate(-50%, -100%);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.header-visible {
+    transform: translate(-50%, 0);
+    opacity: 1;
 }

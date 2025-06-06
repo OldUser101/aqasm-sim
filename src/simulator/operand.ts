@@ -3,7 +3,10 @@ import { Error } from "./error";
 
 export abstract class Operand {
     abstract matches(token: string): boolean;
-    abstract parse(token: string, line: number): number | LabelReference | Error;
+    abstract parse(
+        token: string,
+        line: number
+    ): number | LabelReference | Error;
 }
 
 export class RegisterOperand extends Operand {
@@ -31,7 +34,10 @@ export class ImmediateOperand extends Operand {
         const n: number = parseInt(token.substring(1), 10);
 
         if (isNaN(n) || n < -128 || n > 127) {
-            return new Error(line, `Immediate values cannot be more that 127 or less than -128.`);
+            return new Error(
+                line,
+                `Immediate values cannot be more that 127 or less than -128.`
+            );
         }
 
         return n;
@@ -47,7 +53,10 @@ export class ReferenceOperand extends Operand {
         const n: number = parseInt(token, 10);
 
         if (isNaN(n) || n < 0 || n > 255) {
-            return new Error(line, `Memory references cannot be less than 0 or more than 255.`);
+            return new Error(
+                line,
+                `Memory references cannot be less than 0 or more than 255.`
+            );
         }
 
         return n;

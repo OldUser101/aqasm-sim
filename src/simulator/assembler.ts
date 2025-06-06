@@ -11,10 +11,16 @@ export class Assembler {
         this.sigTable = new SignatureTable();
     }
 
-    private assembleInstruction(instr: ParsedInstruction, context: ParseContext): Instruction | Error {
+    private assembleInstruction(
+        instr: ParsedInstruction,
+        context: ParseContext
+    ): Instruction | Error {
         const sig = this.sigTable.lookup(instr);
         if (!sig) {
-            return new Error(instr.line, `Instruction '${instr.opcode}' does not exist.`);
+            return new Error(
+                instr.line,
+                `Instruction '${instr.opcode}' does not exist.`
+            );
         }
 
         const i = sig.parse(instr);
@@ -38,7 +44,7 @@ export class Assembler {
             }
         }
 
-        return (i as Instruction);
+        return i as Instruction;
     }
 
     loadSigTable(signatures: Signature[]) {
@@ -47,9 +53,12 @@ export class Assembler {
         }
     }
 
-    assemble(parsed: ParsedInstruction[], context: ParseContext): Instruction[] | Error[] {
+    assemble(
+        parsed: ParsedInstruction[],
+        context: ParseContext
+    ): Instruction[] | Error[] {
         const instructions: Instruction[] = [];
-        const errors: Error[] = []
+        const errors: Error[] = [];
 
         for (let instruction of parsed) {
             const aI = this.assembleInstruction(instruction, context);

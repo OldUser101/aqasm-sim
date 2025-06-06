@@ -1,12 +1,12 @@
 "use client";
-import Editor from '@monaco-editor/react';
-import './editor.css';
+import Editor from "@monaco-editor/react";
+import "./editor.css";
 
-import { setInstances } from './editor/instance';
+import { setInstances } from "./editor/instance";
 
 interface Props {
-    assembled: boolean,
-    reset: () => void
+    assembled: boolean;
+    reset: () => void;
 }
 
 export function CodeEditor({ assembled, reset }: Props) {
@@ -26,8 +26,8 @@ export function CodeEditor({ assembled, reset }: Props) {
                 options={{
                     automaticLayout: true,
                     minimap: {
-                        enabled: false
-                    }
+                        enabled: false,
+                    },
                 }}
             />
         </div>

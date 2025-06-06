@@ -5,7 +5,11 @@ export class Opcode {
     code: number;
     private func: (sim: Simulator) => Error | null;
 
-    constructor(name: string, code: number, func: (sim: Simulator) => Error | null) {
+    constructor(
+        name: string,
+        code: number,
+        func: (sim: Simulator) => Error | null
+    ) {
         this.name = name;
         this.code = code;
         this.func = func;
@@ -20,8 +24,15 @@ export class Opcode {
     }
 }
 
-export type ArithmeticOperation = 'ADD' | 'SUB' | 'AND' | 'ORR' | 'EOR' | 'LSL' | 'LSR';
-export type CompareResult = '' | 'EQ' | 'GT' | 'LT';
+export type ArithmeticOperation =
+    | "ADD"
+    | "SUB"
+    | "AND"
+    | "ORR"
+    | "EOR"
+    | "LSL"
+    | "LSR";
+export type CompareResult = "" | "EQ" | "GT" | "LT";
 
 function OP_NOP(): null {
     return null;
@@ -53,25 +64,25 @@ function OP_ARITH_R(sim: Simulator, op: ArithmeticOperation): null {
     let result: number = 0;
 
     switch (op) {
-        case 'ADD':
+        case "ADD":
             result = sim.cpu.getRegister(reg1) + sim.cpu.getRegister(reg2);
             break;
-        case 'SUB':
+        case "SUB":
             result = sim.cpu.getRegister(reg1) - sim.cpu.getRegister(reg2);
             break;
-        case 'AND':
+        case "AND":
             result = sim.cpu.getRegister(reg1) & sim.cpu.getRegister(reg2);
             break;
-        case 'ORR':
+        case "ORR":
             result = sim.cpu.getRegister(reg1) | sim.cpu.getRegister(reg2);
             break;
-        case 'EOR':
+        case "EOR":
             result = sim.cpu.getRegister(reg1) ^ sim.cpu.getRegister(reg2);
             break;
-        case 'LSL':
+        case "LSL":
             result = sim.cpu.getRegister(reg1) << sim.cpu.getRegister(reg2);
             break;
-        case 'LSR':
+        case "LSR":
             result = sim.cpu.getRegister(reg1) >> sim.cpu.getRegister(reg2);
             break;
     }
@@ -89,25 +100,25 @@ function OP_ARITH_I(sim: Simulator, op: ArithmeticOperation): null {
     let result: number = 0;
 
     switch (op) {
-        case 'ADD':
+        case "ADD":
             result = sim.cpu.getRegister(reg) + val;
             break;
-        case 'SUB':
+        case "SUB":
             result = sim.cpu.getRegister(reg) - val;
             break;
-        case 'AND':
+        case "AND":
             result = sim.cpu.getRegister(reg) & val;
             break;
-        case 'ORR':
+        case "ORR":
             result = sim.cpu.getRegister(reg) | val;
             break;
-        case 'EOR':
+        case "EOR":
             result = sim.cpu.getRegister(reg) ^ val;
             break;
-        case 'LSL':
+        case "LSL":
             result = sim.cpu.getRegister(reg) << val;
             break;
-        case 'LSR':
+        case "LSR":
             result = sim.cpu.getRegister(reg) >> val;
             break;
     }
@@ -118,19 +129,19 @@ function OP_ARITH_I(sim: Simulator, op: ArithmeticOperation): null {
 }
 
 function OP_ADD_R(sim: Simulator): null {
-    return OP_ARITH_R(sim, 'ADD');
+    return OP_ARITH_R(sim, "ADD");
 }
 
 function OP_ADD_I(sim: Simulator): null {
-    return OP_ARITH_I(sim, 'ADD');
+    return OP_ARITH_I(sim, "ADD");
 }
 
 function OP_SUB_R(sim: Simulator): null {
-    return OP_ARITH_R(sim, 'SUB');
+    return OP_ARITH_R(sim, "SUB");
 }
 
 function OP_SUB_I(sim: Simulator): null {
-    return OP_ARITH_I(sim, 'SUB');
+    return OP_ARITH_I(sim, "SUB");
 }
 
 function OP_MOV_R(sim: Simulator): null {
@@ -159,11 +170,11 @@ function OP_CMP_R(sim: Simulator): null {
     const val2 = sim.cpu.getRegister(reg2);
 
     if (val1 === val2) {
-        sim.cpu.cmp = 'EQ';
+        sim.cpu.cmp = "EQ";
     } else if (val1 > val2) {
-        sim.cpu.cmp = 'GT';
+        sim.cpu.cmp = "GT";
     } else {
-        sim.cpu.cmp = 'LT';
+        sim.cpu.cmp = "LT";
     }
 
     return null;
@@ -176,11 +187,11 @@ function OP_CMP_I(sim: Simulator): null {
     const val2 = sim.readByte();
 
     if (val1 === val2) {
-        sim.cpu.cmp = 'EQ';
+        sim.cpu.cmp = "EQ";
     } else if (val1 > val2) {
-        sim.cpu.cmp = 'GT';
+        sim.cpu.cmp = "GT";
     } else {
-        sim.cpu.cmp = 'LT';
+        sim.cpu.cmp = "LT";
     }
 
     return null;
@@ -194,50 +205,50 @@ function OP_B(sim: Simulator): null {
 
 function OP_BEQ(sim: Simulator): null {
     const addr = sim.readByte();
-    sim.pc = (sim.cpu.cmp === 'EQ') ? addr : sim.pc;
+    sim.pc = sim.cpu.cmp === "EQ" ? addr : sim.pc;
     return null;
 }
 
 function OP_BNE(sim: Simulator): null {
     const addr = sim.readByte();
-    sim.pc = (sim.cpu.cmp !== 'EQ' && sim.cpu.cmp !== '') ? addr : sim.pc;
+    sim.pc = sim.cpu.cmp !== "EQ" && sim.cpu.cmp !== "" ? addr : sim.pc;
     return null;
 }
 
 function OP_BGT(sim: Simulator): null {
     const addr = sim.readByte();
-    sim.pc = (sim.cpu.cmp === 'GT') ? addr : sim.pc;
+    sim.pc = sim.cpu.cmp === "GT" ? addr : sim.pc;
     return null;
 }
 
 function OP_BLT(sim: Simulator): null {
     const addr = sim.readByte();
-    sim.pc = (sim.cpu.cmp === 'LT') ? addr : sim.pc;
+    sim.pc = sim.cpu.cmp === "LT" ? addr : sim.pc;
     return null;
 }
 
 function OP_AND_R(sim: Simulator): null {
-    return OP_ARITH_R(sim, 'AND');
+    return OP_ARITH_R(sim, "AND");
 }
 
 function OP_AND_I(sim: Simulator): null {
-    return OP_ARITH_I(sim, 'AND');
+    return OP_ARITH_I(sim, "AND");
 }
 
 function OP_ORR_R(sim: Simulator): null {
-    return OP_ARITH_R(sim, 'ORR');
+    return OP_ARITH_R(sim, "ORR");
 }
 
 function OP_ORR_I(sim: Simulator): null {
-    return OP_ARITH_I(sim, 'ORR');
+    return OP_ARITH_I(sim, "ORR");
 }
 
 function OP_EOR_R(sim: Simulator): null {
-    return OP_ARITH_R(sim, 'EOR');
+    return OP_ARITH_R(sim, "EOR");
 }
 
 function OP_EOR_I(sim: Simulator): null {
-    return OP_ARITH_I(sim, 'EOR');
+    return OP_ARITH_I(sim, "EOR");
 }
 
 function OP_MVN_R(sim: Simulator): null {
@@ -259,19 +270,19 @@ function OP_MVN_I(sim: Simulator): null {
 }
 
 function OP_LSL_R(sim: Simulator): null {
-    return OP_ARITH_R(sim, 'LSL');
+    return OP_ARITH_R(sim, "LSL");
 }
 
 function OP_LSL_I(sim: Simulator): null {
-    return OP_ARITH_I(sim, 'LSL');
+    return OP_ARITH_I(sim, "LSL");
 }
 
 function OP_LSR_R(sim: Simulator): null {
-    return OP_ARITH_R(sim, 'LSR');
+    return OP_ARITH_R(sim, "LSR");
 }
 
 function OP_LSR_I(sim: Simulator): null {
-    return OP_ARITH_I(sim, 'LSR');
+    return OP_ARITH_I(sim, "LSR");
 }
 
 function OP_HALT(sim: Simulator): null {
@@ -280,7 +291,7 @@ function OP_HALT(sim: Simulator): null {
 }
 
 export const DEFAULT_OPCODES: Record<string, Opcode> = {
-    NOP: new Opcode("NOP", 0xFF, OP_NOP),
+    NOP: new Opcode("NOP", 0xff, OP_NOP),
     LDR: new Opcode("LDR", 0x01, OP_LDR),
     STR: new Opcode("STR", 0x02, OP_STR),
     ADD_R: new Opcode("ADD", 0x03, OP_ADD_R),
@@ -300,13 +311,13 @@ export const DEFAULT_OPCODES: Record<string, Opcode> = {
     AND_I: new Opcode("AND", 0x88, OP_AND_I),
     ORR_R: new Opcode("ORR", 0x09, OP_ORR_R),
     ORR_I: new Opcode("ORR", 0x89, OP_ORR_I),
-    EOR_R: new Opcode("EOR", 0x0A, OP_EOR_R),
-    EOR_I: new Opcode("EOR", 0x8A, OP_EOR_I),
-    MVN_R: new Opcode("MVN", 0x0B, OP_MVN_R),
-    MVN_I: new Opcode("MVN", 0x8B, OP_MVN_I),
-    LSL_R: new Opcode("LSL", 0x0C, OP_LSL_R),
-    LSL_I: new Opcode("LSL", 0x8C, OP_LSL_I),
-    LSR_R: new Opcode("LSR", 0x0D, OP_LSR_R),
-    LSR_I: new Opcode("LSR", 0x8D, OP_LSR_I),
-    HALT: new Opcode("HALT", 0x00, OP_HALT)
+    EOR_R: new Opcode("EOR", 0x0a, OP_EOR_R),
+    EOR_I: new Opcode("EOR", 0x8a, OP_EOR_I),
+    MVN_R: new Opcode("MVN", 0x0b, OP_MVN_R),
+    MVN_I: new Opcode("MVN", 0x8b, OP_MVN_I),
+    LSL_R: new Opcode("LSL", 0x0c, OP_LSL_R),
+    LSL_I: new Opcode("LSL", 0x8c, OP_LSL_I),
+    LSR_R: new Opcode("LSR", 0x0d, OP_LSR_R),
+    LSR_I: new Opcode("LSR", 0x8d, OP_LSR_I),
+    HALT: new Opcode("HALT", 0x00, OP_HALT),
 };

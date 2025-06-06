@@ -1,151 +1,176 @@
-import * as monacoEditor from 'monaco-editor';
+import * as monacoEditor from "monaco-editor";
 
-function generateCompletions(range: { startLineNumber: number, endLineNumber: number, startColumn: number, endColumn: number}) {
+function generateCompletions(range: {
+    startLineNumber: number;
+    endLineNumber: number;
+    startColumn: number;
+    endColumn: number;
+}) {
     return [
         {
-            label: 'LDR',
+            label: "LDR",
             kind: monacoEditor.languages.CompletionItemKind.Function,
-            documentation: "Load a value from a memory address into a register.",
-            insertText: 'LDR',
+            documentation:
+                "Load a value from a memory address into a register.",
+            insertText: "LDR",
             range: range,
         },
         {
-            label: 'STR',
+            label: "STR",
             kind: monacoEditor.languages.CompletionItemKind.Function,
             documentation: "Store a value in a register at a memory address.",
-            insertText: 'STR',
+            insertText: "STR",
             range: range,
         },
         {
-            label: 'ADD',
+            label: "ADD",
             kind: monacoEditor.languages.CompletionItemKind.Function,
-            documentation: "Add a register and another register or immediate value into a register.",
-            insertText: 'ADD',
+            documentation:
+                "Add a register and another register or immediate value into a register.",
+            insertText: "ADD",
             range: range,
         },
         {
-            label: 'SUB',
+            label: "SUB",
             kind: monacoEditor.languages.CompletionItemKind.Function,
-            documentation: "Subtract a register or immediate value from another register into a register.",
-            insertText: 'SUB',
+            documentation:
+                "Subtract a register or immediate value from another register into a register.",
+            insertText: "SUB",
             range: range,
         },
         {
-            label: 'MOV',
+            label: "MOV",
             kind: monacoEditor.languages.CompletionItemKind.Function,
-            documentation: "Move a register value or an immediate into a register.",
-            insertText: 'MOV',
+            documentation:
+                "Move a register value or an immediate into a register.",
+            insertText: "MOV",
             range: range,
         },
         {
-            label: 'CMP',
+            label: "CMP",
             kind: monacoEditor.languages.CompletionItemKind.Function,
-            documentation: "Compare a register with another register or immediate value.",
-            insertText: 'CMP',
+            documentation:
+                "Compare a register with another register or immediate value.",
+            insertText: "CMP",
             range: range,
         },
         {
-            label: 'B',
+            label: "B",
             kind: monacoEditor.languages.CompletionItemKind.Function,
             documentation: "Branch unconditionally to a label.",
-            insertText: 'B',
+            insertText: "B",
             range: range,
         },
         {
-            label: 'BEQ',
+            label: "BEQ",
             kind: monacoEditor.languages.CompletionItemKind.Function,
-            documentation: "Branch to a label if the last comparison was equal.",
-            insertText: 'BEQ',
+            documentation:
+                "Branch to a label if the last comparison was equal.",
+            insertText: "BEQ",
             range: range,
         },
         {
-            label: 'BNE',
+            label: "BNE",
             kind: monacoEditor.languages.CompletionItemKind.Function,
-            documentation: "Branch to a label if the last comparison was not equal.",
-            insertText: 'BNE',
+            documentation:
+                "Branch to a label if the last comparison was not equal.",
+            insertText: "BNE",
             range: range,
         },
         {
-            label: 'BGT',
+            label: "BGT",
             kind: monacoEditor.languages.CompletionItemKind.Function,
-            documentation: "Branch to a label if the last comparison was greater than.",
-            insertText: 'BGT',
+            documentation:
+                "Branch to a label if the last comparison was greater than.",
+            insertText: "BGT",
             range: range,
         },
         {
-            label: 'BLT',
+            label: "BLT",
             kind: monacoEditor.languages.CompletionItemKind.Function,
-            documentation: "Branch to a label if the last comparison was less than.",
-            insertText: 'BLT',
+            documentation:
+                "Branch to a label if the last comparison was less than.",
+            insertText: "BLT",
             range: range,
         },
         {
-            label: 'AND',
+            label: "AND",
             kind: monacoEditor.languages.CompletionItemKind.Function,
-            documentation: "Bitwise AND of a register and either a register or an immediate into a register.",
-            insertText: 'AND',
+            documentation:
+                "Bitwise AND of a register and either a register or an immediate into a register.",
+            insertText: "AND",
             range: range,
         },
         {
-            label: 'ORR',
+            label: "ORR",
             kind: monacoEditor.languages.CompletionItemKind.Function,
-            documentation: "Bitwise OR of a register and either a register or an immediate into a register.",
-            insertText: 'ORR',
+            documentation:
+                "Bitwise OR of a register and either a register or an immediate into a register.",
+            insertText: "ORR",
             range: range,
         },
         {
-            label: 'EOR',
+            label: "EOR",
             kind: monacoEditor.languages.CompletionItemKind.Function,
-            documentation: "Bitwise EOR/XOR of a register and either a register or an immediate into a register.",
-            insertText: 'EOR',
+            documentation:
+                "Bitwise EOR/XOR of a register and either a register or an immediate into a register.",
+            insertText: "EOR",
             range: range,
         },
         {
-            label: 'MVN',
+            label: "MVN",
             kind: monacoEditor.languages.CompletionItemKind.Function,
-            documentation: "Bitwise NOT of either a register or an immediate into a register.",
-            insertText: 'MVN',
+            documentation:
+                "Bitwise NOT of either a register or an immediate into a register.",
+            insertText: "MVN",
             range: range,
         },
         {
-            label: 'LSL',
+            label: "LSL",
             kind: monacoEditor.languages.CompletionItemKind.Function,
-            documentation: "Logical shift left of a register and either a register or an immediate into a register.",
-            insertText: 'LSL',
+            documentation:
+                "Logical shift left of a register and either a register or an immediate into a register.",
+            insertText: "LSL",
             range: range,
         },
         {
-            label: 'LSR',
+            label: "LSR",
             kind: monacoEditor.languages.CompletionItemKind.Function,
-            documentation: "Logical shift right of a register and either a register or an immediate into a register.",
-            insertText: 'LSR',
+            documentation:
+                "Logical shift right of a register and either a register or an immediate into a register.",
+            insertText: "LSR",
             range: range,
         },
         {
-            label: 'HALT',
+            label: "HALT",
             kind: monacoEditor.languages.CompletionItemKind.Function,
             documentation: "Stop the CPU.",
-            insertText: 'HALT',
+            insertText: "HALT",
             range: range,
         },
     ];
 }
 
 export function RegisterLanguage(monaco: typeof monacoEditor) {
-    monaco.languages.register({ id: 'aqa-asm' });
+    monaco.languages.register({ id: "aqa-asm" });
 
-    monaco.languages.setMonarchTokensProvider('aqa-asm', {
+    monaco.languages.setMonarchTokensProvider("aqa-asm", {
         ignoreCase: true,
         tokenizer: {
             root: [
                 [/;.*/, "comment"],
-                [/\b(LDR|STR|ADD|SUB|MOV|CMP|B|BEQ|BNE|BGT|BLT|AND|ORR|EOR|MVN|LSL|LSR|HALT|NOP)\b/,"keyword"],
+                [
+                    /\b(LDR|STR|ADD|SUB|MOV|CMP|B|BEQ|BNE|BGT|BLT|AND|ORR|EOR|MVN|LSL|LSR|HALT|NOP)\b/,
+                    "keyword",
+                ],
                 [/\bR[0-9]+\b/, "variable"],
                 [/#-?\d+/, "number.immediate"],
                 [/\b\d+\b/, "number.address"],
                 [/^\s*[a-zA-Z_]\w*:/, "type.identifier"],
-            ]
-        }
+                [/\b(BLT|BEQ|BNE|BGT|BLT)\b/, "keyword"],
+                [/\b[a-zA-Z_]\w*\b/, "type.identifier"],
+            ],
+        },
     });
 
     monaco.editor.defineTheme("aqa-light", {
@@ -155,11 +180,15 @@ export function RegisterLanguage(monaco: typeof monacoEditor) {
             { token: "comment", foreground: "008000" },
             { token: "keyword", foreground: "0000FF" },
             { token: "variable", foreground: "800080" },
-            { token: "number.immediate", foreground: "008080", fontStyle: "bold" },
+            {
+                token: "number.immediate",
+                foreground: "008080",
+                fontStyle: "bold",
+            },
             { token: "number.address", foreground: "A52A2A" },
             { token: "type.identifier", foreground: "795E26" },
         ],
-        colors: {}
+        colors: {},
     });
 
     monaco.editor.defineTheme("aqa-dark", {
@@ -169,15 +198,19 @@ export function RegisterLanguage(monaco: typeof monacoEditor) {
             { token: "comment", foreground: "6A9955" },
             { token: "keyword", foreground: "569CD6" },
             { token: "variable", foreground: "C586C0" },
-            { token: "number.immediate", foreground: "B5CEA8", fontStyle: "bold" },
+            {
+                token: "number.immediate",
+                foreground: "B5CEA8",
+                fontStyle: "bold",
+            },
             { token: "number.address", foreground: "D7BA7D" },
             { token: "type.identifier", foreground: "DCDCAA" },
         ],
-        colors: {}
+        colors: {},
     });
 
-    monaco.languages.registerCompletionItemProvider('aqa-asm', {
-        provideCompletionItems: function(model, position) {
+    monaco.languages.registerCompletionItemProvider("aqa-asm", {
+        provideCompletionItems: function (model, position) {
             var word = model.getWordUntilPosition(position);
             var range = {
                 startLineNumber: position.lineNumber,
@@ -187,7 +220,7 @@ export function RegisterLanguage(monaco: typeof monacoEditor) {
             };
 
             return {
-                suggestions: generateCompletions(range)
+                suggestions: generateCompletions(range),
             };
         },
     });
