@@ -19,6 +19,7 @@
 
 .center {
     position: absolute;
+    padding: 0.25rem;
     left: 50%;
     transform: translateX(-50%);
 }

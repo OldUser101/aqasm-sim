@@ -94,7 +94,12 @@ export class SimulatorInterface {
     }
 
     run() {
-        if (!this.running && !this.debug) {
+        if (this.simulator.cpu.halt) {
+            this.simulator.reset();
+            this.debug = false;
+            this.assembled = false;
+            this.run();
+        } else if (!this.running && !this.debug) {
             this.running = true;
             this.startClock();
         } else if (this.debug) {
@@ -158,6 +163,7 @@ export class SimulatorInterface {
         if (this.simulator.cpu.halt && decorations) {
             decorations.clear();
             this.stopClock();
+            this.debug = false;
             this.running = false;
         }
 
