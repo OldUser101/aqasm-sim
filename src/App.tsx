@@ -15,7 +15,7 @@ import { Header } from "./header";
 export default function App() {
     const [tooSmall, setTooSmall] = useState<boolean>(false);
     const [ignoreScreenSize, setIgnoreScreenSize] = useState<boolean>(false);
-    const [runMode, setRunMode] = useState<SimulatorRunMode>("MAN");
+    const [runMode, setRunMode] = useState<SimulatorRunMode>("AUTO");
     const [clockSpeed, setClockSpeed] = useState<number>(1);
     const [_, setReRender] = useState(0);
     const [simInterface, setSimInterface] = useState<SimulatorInterface | null>(
@@ -63,7 +63,7 @@ export default function App() {
     useEffect(() => {
         const savedRunMode = getStorageItem(
             "run-mode",
-            "MAN",
+            "AUTO",
             (value: string) => {
                 return value === "MAN" || value === "AUTO";
             }
