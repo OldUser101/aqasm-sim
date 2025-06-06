@@ -1,4 +1,5 @@
 import "./info-card.css";
+import { VERSION } from "./version";
 
 export function InfoCard() {
     return (
@@ -21,6 +22,7 @@ export function InfoCard() {
                     </svg>
                 </a>
                 <p>Copyright © 2025, Nathan Gill</p>
+                <p>Version {VERSION}</p>
             </div>
         </div>
     );
