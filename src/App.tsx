@@ -132,28 +132,36 @@ export default function App() {
     }
 
     return (
-        <div className="layout">
-            <Header sim={simInterface} />
-            <div className="grid">
-                <div className="files-col">
-                    <div>pane 1</div>
-                    <InfoCard />
-                </div>
-                <CodeEditor
-                    assembled={simInterface.assembled}
-                    reset={simInterface.resetCpu}
-                />
-                <div className="status-col">
-                    <CPUState sim={simInterface.simulator} />
-                    <MyHexEditor simulator={simInterface.simulator} />
-                    <SimulatorSettings
-                        runMode={runMode}
-                        clockSpeed={clockSpeed}
-                        modeSwitchHandler={changeRunMode}
-                        clockSpeedHandler={changeClockSpeed}
+        <>
+            <div className="layout">
+                <Header sim={simInterface} />
+                <div className="grid">
+                    <div className="files-col">
+                        <div>pane 1</div>
+                        <InfoCard />
+                    </div>
+                    <CodeEditor
+                        assembled={simInterface.assembled}
+                        reset={simInterface.resetCpu}
                     />
+                    <div className="status-col">
+                        <CPUState sim={simInterface.simulator} />
+                        <MyHexEditor simulator={simInterface.simulator} />
+                        <div
+                            style={{
+                                display: "flex",
+                                justifyContent: "right",
+                                width: "100%",
+                            }}
+                        >
+                            <SimulatorSettings
+                                clockSpeed={clockSpeed}
+                                clockSpeedHandler={changeClockSpeed}
+                            />
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
+        </>
     );
 }

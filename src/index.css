@@ -99,22 +99,19 @@
     border-width: 0;
     background-color: var(--header);
     color: var(--button-text);
+    height: 100%;
 }
 
-.icon-button:hover {
+.icon-button:not(:disabled):hover {
     background-color: var(--button-hover);
 }
 
-.icon-button:active {
+.icon-button:not(:disabled):active {
     background-color: var(--button-active);
 }
 
 .icon-button:disabled {
     color: var(--button-disabled);
-}
-
-.disable-hide:disabled {
-    visibility: hidden;
 }
 
 .button-icon {

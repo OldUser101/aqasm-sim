@@ -5,3 +5,74 @@
 .value-text {
     padding: 0.5em;
 }
+
+.dialog-box {
+    overflow: auto;
+    background-color: var(--bg);
+    border-radius: 10px;
+    border: 1px solid var(--header);
+    padding: 1em;
+}
+
+.dialog-content {
+    overflow: auto;
+}
+
+.dialog-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dialog-header h3 {
+    margin: 0;
+}
+
+.config-dialog {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+}
+
+.config-dialog.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.setting-button {
+    padding: 1em;
+    border: none;
+    background: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    transition: background-color 0.2s, border-color 0.2s;
+    border-width: 0;
+    background-color: var(--bg);
+    color: var(--button-text);
+}
+
+.setting-button:hover {
+    background-color: var(--button-hover);
+}
+
+.setting-button:active {
+    background-color: var(--button-active);
+}
+
+.setting-button:disabled {
+    color: var(--button-disabled);
+}
