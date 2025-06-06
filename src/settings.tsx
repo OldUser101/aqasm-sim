@@ -7,11 +7,18 @@ import { CloseIcon, SliderIcon } from "./icons";
 export type SimulatorRunMode = "MAN" | "AUTO";
 
 interface Props {
+    runMode: SimulatorRunMode;
     clockSpeed: number;
+    modeSwitchHandler: (event: React.ChangeEvent<HTMLInputElement>) => void;
     clockSpeedHandler: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export function SimulatorSettings({ clockSpeed, clockSpeedHandler }: Props) {
+export function SimulatorSettings({
+    runMode,
+    clockSpeed,
+    modeSwitchHandler,
+    clockSpeedHandler,
+}: Props) {
     const [visible, setVisible] = useState<boolean>(false);
 
     return (
@@ -19,6 +26,7 @@ export function SimulatorSettings({ clockSpeed, clockSpeedHandler }: Props) {
             <div>
                 <button
                     className="setting-button"
+                    title="Simulator options"
                     onClick={() => setVisible(true)}
                 >
                     <SliderIcon />
@@ -40,10 +48,37 @@ export function SimulatorSettings({ clockSpeed, clockSpeedHandler }: Props) {
                         <div className="dialog-content">
                             <div className="indent">
                                 <p>
-                                    <strong>Clock:</strong>
+                                    <strong>Clock</strong>
                                 </p>
                                 <div className="indent">
+                                    <span className="value-text">
+                                        Run Mode:
+                                    </span>
                                     <label>
+                                        <input
+                                            type="radio"
+                                            className="radio"
+                                            name="run-mode"
+                                            value="AUTO"
+                                            checked={runMode === "AUTO"}
+                                            onChange={modeSwitchHandler}
+                                        />
+                                        Automatic
+                                    </label>
+                                    <label>
+                                        <input
+                                            type="radio"
+                                            className="radio"
+                                            name="run-mode"
+                                            value="MAN"
+                                            checked={runMode === "MAN"}
+                                            onChange={modeSwitchHandler}
+                                        />
+                                        Manual
+                                    </label>
+                                </div>
+                                <div className="indent">
+                                    <label title="Number of clock cycles per second">
                                         <span className="value-text">
                                             Speed:
                                         </span>

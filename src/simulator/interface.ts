@@ -37,12 +37,6 @@ export class SimulatorInterface {
 
     setRunMode(runMode: SimulatorRunMode) {
         this.runMode = runMode;
-
-        if (this.runMode === "MAN") {
-            this.stopClock();
-        } else if (this.running) {
-            this.startClock();
-        }
     }
 
     setClockSpeed(clockSpeed: number) {
@@ -62,7 +56,7 @@ export class SimulatorInterface {
         if (this.clock) return;
 
         this.clock = window.setInterval(() => {
-            this.runCycle(0);
+            this.runCycle();
         }, (1 / this.clockSpeed) * 1000);
     }
 
@@ -100,13 +94,27 @@ export class SimulatorInterface {
             this.assembled = false;
             this.run();
         } else if (!this.running && !this.debug) {
-            this.running = true;
-            this.startClock();
+            this.assembleSource();
+            if (!this.assembled) {
+                this.setReRender((n) => n + 1);
+                return;
+            }
+
+            this.updateDebugMarker();
+
+            if (this.runMode === "AUTO") {
+                this.running = true;
+                this.startClock();
+            } else {
+                this.enterDebugMode();
+            }
         } else if (this.debug) {
             this.exitDebugMode();
         } else {
             this.enterDebugMode();
         }
+
+        this.setReRender((n) => n + 1);
     }
 
     enterDebugMode() {
@@ -125,13 +133,13 @@ export class SimulatorInterface {
 
     debugNext() {
         if (this.debug) {
-            this.runCycle(0);
+            this.runCycle();
         }
     }
 
     debugSkip() {
         if (this.debug) {
-            this.runCycle(0, true);
+            this.runCycle(true);
         }
     }
 
@@ -144,17 +152,15 @@ export class SimulatorInterface {
         }
     }
 
-    runCycle(c: number, skip: boolean = false) {
-        if (c > 1) {
-            return;
+    updateDebugMarker() {
+        const line: number | null = this.simulator.lineFromPc();
+        // Don't use `line` here, as the line may be zero, which is okay.
+        if (line !== null) {
+            this.setDebugMarker(line + 1);
         }
+    }
 
-        if (!this.assembled && c === 0) {
-            this.assembleSource();
-            this.runCycle(c + 1, skip);
-            return;
-        }
-
+    runCycle(skip: boolean = false) {
         const r: Error | null = this.simulator.runCycle(skip);
         if (r instanceof Error) {
             console.error(`${r.line ? r.line : ""}: ${r.message}`);
@@ -167,11 +173,7 @@ export class SimulatorInterface {
             this.running = false;
         }
 
-        const line: number | null = this.simulator.lineFromPc();
-        if (line) {
-            this.setDebugMarker(line + 1);
-        }
-
+        this.updateDebugMarker();
         this.setReRender((n) => n + 1);
     }
 
@@ -197,6 +199,8 @@ export class SimulatorInterface {
     setDebugMarker(line: number) {
         if (editorInstance && monacoInstance && decorations) {
             decorations.clear();
+
+            console.log(line);
 
             decorations.set([
                 {

@@ -57,8 +57,8 @@ export function ThemeToggle() {
     }, []);
 
     return (
-        <button className="icon-button" onClick={toggle}>
-            {theme === "dark" ? <MoonIcon /> : <SunIcon />}
+        <button className="icon-button" title="Toggle theme" onClick={toggle}>
+            {theme === "dark" ? <SunIcon /> : <MoonIcon />}
         </button>
     );
 }

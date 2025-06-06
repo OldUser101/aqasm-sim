@@ -155,7 +155,9 @@ export default function App() {
                             }}
                         >
                             <SimulatorSettings
+                                runMode={runMode}
                                 clockSpeed={clockSpeed}
+                                modeSwitchHandler={changeRunMode}
                                 clockSpeedHandler={changeClockSpeed}
                             />
                         </div>
