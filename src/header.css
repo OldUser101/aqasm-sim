@@ -19,6 +19,10 @@
     height: 100%;
 }
 
+.left {
+    margin-right: auto;
+}
+
 .center {
     position: absolute;
     padding: 0.25rem;

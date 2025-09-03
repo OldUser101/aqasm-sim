@@ -9,6 +9,15 @@
     padding: 1rem;
 }
 
+
+.info-card svg {
+    transition: color 0.3s ease;
+}
+
+.info-card svg:hover {
+    color: var(--text);
+} 
+
 .info-card p {
     margin-bottom: 0;
 }
