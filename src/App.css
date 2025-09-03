@@ -1,6 +1,6 @@
 .layout {
     display: grid;
-    grid-template-rows: 4vh auto;
+    grid-template-rows: 3em auto;
     height: 100vh;
     background-color: var(--bg);
 }
@@ -8,7 +8,7 @@
 .grid {
     display: flex;
     width: 100vw;
-    height: 96vh;
+    height: calc(100vh - 3em);
 }
 
 .files-col {

@@ -115,8 +115,12 @@
 }
 
 .button-icon {
-    width: 1em;
-    height: 1em;
+    width: 100%;
+    /*height: 100%;*/
+    max-height: 1.5em;
+    max-width: 1.5em;
+    display: block;
+    object-fit: contain;
 }
 
 .radio {
