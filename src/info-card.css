@@ -1,14 +1,12 @@
 .info-card {
     display: flex;
-    flex-direction: column;
-    justify-self: center;
-    align-self: center;
+    flex-direction: row;
+    align-items: center;
     color: var(--text-muted);
-    text-align: center;
     font-size: smaller;
-    padding: 1rem;
+    gap: 1em;
+    margin: 0 0.5em;
 }
-
 
 .info-card svg {
     transition: color 0.3s ease;
@@ -18,20 +16,9 @@
     color: var(--text);
 } 
 
-.info-card p {
-    margin-bottom: 0;
-}
-
-.info-card-border {
-    display: flex;
-    border-top: solid;
-    border-top-width: 1px;
-    border-color: var(--border);
-}
-
 .github-logo {
     color: var(--text-muted);
     height: 32px;
     width: 32px;
-    margin: 0 auto;
+    margin: 0 0;
 }

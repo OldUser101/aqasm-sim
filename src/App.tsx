@@ -136,10 +136,6 @@ export default function App() {
             <div className="layout">
                 <Header sim={simInterface} />
                 <div className="grid">
-                    <div className="files-col">
-                        <div>pane 1</div>
-                        <InfoCard />
-                    </div>
                     <CodeEditor
                         assembled={simInterface.assembled}
                         reset={simInterface.resetCpu}
@@ -147,19 +143,16 @@ export default function App() {
                     <div className="status-col">
                         <CPUState sim={simInterface.simulator} />
                         <MyHexEditor simulator={simInterface.simulator} />
-                        <div
-                            style={{
-                                display: "flex",
-                                justifyContent: "right",
-                                width: "100%",
-                            }}
-                        >
-                            <SimulatorSettings
-                                runMode={runMode}
-                                clockSpeed={clockSpeed}
-                                modeSwitchHandler={changeRunMode}
-                                clockSpeedHandler={changeClockSpeed}
-                            />
+                        <div className="status-bar">
+                            <InfoCard />
+                            <div className="settings">
+                                <SimulatorSettings
+                                    runMode={runMode}
+                                    clockSpeed={clockSpeed}
+                                    modeSwitchHandler={changeRunMode}
+                                    clockSpeedHandler={changeClockSpeed}
+                                />
+                            </div>
                         </div>
                     </div>
                 </div>

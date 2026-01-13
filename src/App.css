@@ -36,6 +36,18 @@
     min-height: 0;
 }
 
+.status-bar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    border-top: solid;
+    border-top-width: 1px;
+    border-color: var(--border);
+
+    padding: 0.25rem;
+}
+
 .debugLineHighlight {
     background-color: var(--monaco-debug-highlight);
 }
